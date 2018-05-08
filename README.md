@@ -1,6 +1,6 @@
 # FreesiaBlogEditionTwo
 ### 第二版个人博客
-#### 第一版地址[FreesiaWebSite](https://github.com/GarvenYu/FreesiaWebSite)
+#### 第一版项目地址[FreesiaWebSite-GitHub](https://github.com/GarvenYu/FreesiaWebSite)
 
 ---
 
