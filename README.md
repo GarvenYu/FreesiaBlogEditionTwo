@@ -6,5 +6,4 @@
 
 ### 拟采用的技术
 - Flask作为服务端
-- ElementUI
-- Vue
+- Flask-Bootstrap
