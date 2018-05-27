@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template
+from flask import render_template, session, redirect, url_for
 from . import main
+from .forms import MyForm
 
 
-@main.route('/', methods=['GET'])
+@main.route('/mainPage', methods=['GET'])
 def index():
-    return render_template('base.html', info='test')
+    name = session.get('name')
+    return render_template('mainPage.html', name=name)
+
+
+@main.route('/write', methods=['GET', 'POST'])
+def write_blog():
+    form = MyForm()
+    if form.validate_on_submit():
+        session['name'] = form.name.data
+        return redirect(url_for(".index"))
+    return render_template('write_blog.html', form=form)
