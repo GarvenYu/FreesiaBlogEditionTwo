@@ -5,7 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 {% endblock %}
 
+{% block html_attribs %} lang="zh"{% endblock %}
+
 {% block styles %}
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
     {{ super() }}
 {% endblock %}
 
@@ -51,4 +57,3 @@
     {% block page_content %}{% endblock %}
 </div><!-- /.container -->
 {% endblock %}
-

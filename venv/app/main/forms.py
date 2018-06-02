@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from flask_pagedown.fields import PageDownField
 
 
-class MyForm(FlaskForm):
-    name = StringField('姓名', validators=[DataRequired()])
-    submit = SubmitField('提交')
+class BlogForm(FlaskForm):
+    pagedown = PageDownField('Enter your markdown')

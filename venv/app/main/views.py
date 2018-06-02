@@ -3,7 +3,7 @@
 
 from flask import render_template, session, redirect, url_for
 from . import main
-from .forms import MyForm
+from .forms import BlogForm
 
 
 @main.route('/mainPage', methods=['GET'])
@@ -14,8 +14,9 @@ def index():
 
 @main.route('/write', methods=['GET', 'POST'])
 def write_blog():
-    form = MyForm()
+    form = BlogForm()
     if form.validate_on_submit():
+        text = form.pagedown.data
         session['name'] = form.name.data
         return redirect(url_for(".index"))
     return render_template('write_blog.html', form=form)
