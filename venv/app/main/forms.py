@@ -6,4 +6,4 @@ from flask_pagedown.fields import PageDownField
 
 
 class BlogForm(FlaskForm):
-    pagedown = PageDownField('Enter your markdown')
+    content = PageDownField('Enter your markdown')
