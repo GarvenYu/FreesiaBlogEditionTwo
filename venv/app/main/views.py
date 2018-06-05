@@ -9,7 +9,7 @@ from .forms import BlogForm
 @main.route('/mainPage', methods=['GET'])
 def index():
     name = session.get('name')
-    return render_template('mainPage.html', name=name)
+    return render_template('home/mainPage.html', name=name)
 
 
 @main.route('/write', methods=['GET', 'POST'])
@@ -19,4 +19,4 @@ def write_blog():
         text = form.pagedown.data
         session['name'] = form.name.data
         return redirect(url_for(".index"))
-    return render_template('write_blog.html', form=form)
+    return render_template('blog/write_blog.html', form=form)
