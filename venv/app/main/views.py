@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from . import main
 from .forms import BlogForm
 
@@ -14,9 +14,13 @@ def index():
 
 @main.route('/write', methods=['GET', 'POST'])
 def write_blog():
-    form = BlogForm()
-    if form.validate_on_submit():
-        text = form.pagedown.data
-        session['name'] = form.name.data
-        return redirect(url_for(".index"))
-    return render_template('blog/write_blog.html', form=form)
+    return render_template('blog/write_blog.html')
+
+
+@main.route('/saveBlog', methods=['POST'])
+def save_blog():
+    title = request.form['blog_title']
+    summary = request.form['blog_summary']
+    tag = request.form['states[]']
+    content = request.form['content']
+    return render_template('home/mainPage.html', title=title, summary=summary, tag=tag, content=content)

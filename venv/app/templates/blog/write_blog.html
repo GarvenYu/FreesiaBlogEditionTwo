@@ -10,13 +10,31 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    <script src="{{url_for('static', filename='js/select2.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/bootstrap-markdown.js')}}"></script>
-    <script src="{{url_for('static', filename='js/bootstrap-markdown.fr.js')}}"></script>
-    <script src="{{url_for('static', filename='js/markdown.js')}}"></script>
-    <script src="{{url_for('static', filename='js/to-markdown.js')}}"></script>
-    <script>
+{{ super() }}
+<script src="{{url_for('static', filename='js/select2.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap-markdown.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap-markdown.fr.js')}}"></script>
+<script src="{{url_for('static', filename='js/markdown.js')}}"></script>
+<script src="{{url_for('static', filename='js/to-markdown.js')}}"></script>
+<script>
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+    $(".btn-default").on("click", function () {
+        var form_data = $("form").serializeArray();
+        var values = {};
+        var options = [];
+        for( var x in form_data){
+            if(form_data[x].name == "states"){
+                options.push(form_data[x].value);
+                values[form_data[x].name] = options;
+            }else{
+                values[form_data[x].name] = form_data[x].value;
+            }
+
+        }
+        var data = JSON.stringify(values);
+        console.log(data);
+    });
     //显示中文提示
     (function ($) {
       $.fn.markdown.messages.zh = {
@@ -48,33 +66,31 @@
     $("#editor").markdown({
         autofocus: true,
         language: 'zh',
-    })
-    $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
+    });
 });
     </script>
 {% endblock %}
 
 {% block page_content %}
 <div style="padding-top: 30px">
-<form class="form-horizontal" method="post" action="">
+<form class="form-horizontal" method="post" action="/saveBlog">
   <div class="form-group">
     <label for="blog_title" class="col-sm-2 control-label">标题</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="blog_title" placeholder="标题">
+        <input type="text" class="form-control" id="blog_title" name="blog_title" placeholder="标题">
     </div>
   </div>
   <div class="form-group">
     <label for="blog_summary" class="col-sm-2 control-label">摘要</label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="blog_summary" placeholder="摘要">
+        <input type="text" class="form-control" id="blog_summary" name="blog_summary" placeholder="摘要">
     </div>
   </div>
 
   <div class="form-group">
     <label for="blog_kind" class="col-sm-2 control-label">分类</label>
     <div class="col-sm-10">
-        <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 500px">
+        <select class="js-example-basic-multiple" name="states" multiple="multiple" style="width: 500px">
             <option value="AL">Alabama</option>
             <option value="WY">Wyoming</option>
         </select>
@@ -91,7 +107,7 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">提交</button>
+      <button type="button" class="btn btn-default">提交</button>
     </div>
   </div>
 </form>
