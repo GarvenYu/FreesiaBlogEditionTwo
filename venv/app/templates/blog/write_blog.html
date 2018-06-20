@@ -19,6 +19,7 @@
 <script>
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
+    //提交表单
     $(".btn-default").on("click", function () {
         var form_data = $("form").serializeArray();
         var values = {};
@@ -33,7 +34,16 @@ $(document).ready(function() {
 
         }
         var data = JSON.stringify(values);
-        console.log(data);
+        $.ajax({
+            type : 'post',
+            url : 'saveBlog',
+            dataType : 'json',
+            data : data,
+            cache : false,
+            success : function(data){
+                console.log(data);
+            }
+        });
     });
     //显示中文提示
     (function ($) {
@@ -67,13 +77,23 @@ $(document).ready(function() {
         autofocus: true,
         language: 'zh',
     });
+    //初始化select值
+    $.initSelectData({{ option_list | tojson }})
 });
-    </script>
+ $.initSelectData = function(option_list){
+     for (var i = 0; i < option_list.length; i++) {
+        var option = document.createElement("option");
+        $(option).val(option_list[i].id);
+        $(option).text(option_list[i].name);
+        $('#category').append(option);
+     }
+ }
+</script>
 {% endblock %}
 
 {% block page_content %}
 <div style="padding-top: 30px">
-<form class="form-horizontal" method="post" action="/saveBlog">
+<form class="form-horizontal" method="post">
   <div class="form-group">
     <label for="blog_title" class="col-sm-2 control-label">标题</label>
     <div class="col-sm-10">
@@ -90,9 +110,7 @@ $(document).ready(function() {
   <div class="form-group">
     <label for="blog_kind" class="col-sm-2 control-label">分类</label>
     <div class="col-sm-10">
-        <select class="js-example-basic-multiple" name="states" multiple="multiple" style="width: 500px">
-            <option value="AL">Alabama</option>
-            <option value="WY">Wyoming</option>
+        <select class="js-example-basic-multiple" id="category" name="states" multiple="multiple" style="width: 500px">
         </select>
     </div>
   </div>
