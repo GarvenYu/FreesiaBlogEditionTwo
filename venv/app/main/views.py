@@ -4,8 +4,10 @@
 from flask import render_template, session, redirect, url_for, request, jsonify
 import json
 import logging
+from datetime import datetime
 from . import main
-from ..models import Category
+from ..models import Category, Blog
+from .. import db
 
 
 logger = logging.getLogger()
@@ -27,7 +29,9 @@ def write_blog():
 @main.route('/saveBlog', methods=['POST'])
 def save_blog():
     data = request.get_data()
-    dict_data = json.loads(data)
-    # {'blog_title': '得到', 'blog_summary': '对对对', 'states': ['AL', 'WY'], 'content': ''}
-
-    return render_template('home/mainPage.html')
+    blog_data = json.loads(data)
+    category = Category.query.filter_by(id=int(blog_data['states'][0])).first()
+    blog = Blog(blog_data['blog_title'], blog_data['blog_summary'], blog_data['content'], datetime.now(), category)
+    db.session.add(blog)
+    db.session.commit()
+    return jsonify(msg='success')
