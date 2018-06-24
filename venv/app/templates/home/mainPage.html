@@ -3,9 +3,40 @@
 {% block head %}
     {{ super() }}
 {% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/mycss.css')}}" rel="stylesheet" />
+{% endblock %}
 {% block page_content %}
-<div style="padding-top: 60px">
-<p>hello</p>
+<div style="padding-top:30px">
+<div class="row">
+  <div class="col-md-8">
+      <div class="col-md-12 col-sm-12">
+          <i class="fas fa-bookmark fa-lg"></i><span style="font-size:18px;margin-left: 5px">最近文章</span>
+          <article class="article">
+              <h2>
+                <a href="#" class="blogTitle">测测测测测测测测测测</a>
+              </h2>
+                <p>深度学习中，许多的实现并不单单是神经网络的搭建和训练，也包括使用一系列传统的方法与之结合的方式
+                去增强深度学习的实现效果，在语义分割(semantic segmentation)和风…</p>
+                <div>
+                  <span class="label label-success" style="margin-right: 15px">Python</span>
+                  <i class="fas fa-user-circle fa-lg"></i><span style="font-size:13px;margin: 0 5px">Freesia</span>
+                  <i class="fas fa-calendar fa-lg"></i><span style="font-size:13px;margin: 0 5px">2018年6月30日</span>
+                  <a class="pull-right" title="阅读全文" href="#">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
+                </div>
+          </article>
+          <article>
+              <h3><span class="label label-success">Python</span>Example heading</h3>
+          </article>
+          <article>
+              <h3><span class="label label-success">Python</span>Example heading</h3>
+          </article>
+      </div>
+  </div>
+  <div class="col-md-4">.col-md-6</div>
+</div>
 </div>
 {% endblock %}
 

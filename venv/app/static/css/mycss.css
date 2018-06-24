@@ -1,0 +1,36 @@
+.article{
+	padding: 10px;
+	font-size: 21px;
+	font-weight: 500;
+}
+.article p{
+	font-size: 15px;
+	font-weight: 400;
+	text-indent: 2em;
+	line-height: 1.8;
+}
+.article div{
+	border-top: 1px solid #F3F3F3;
+	font-size: 12px;
+	line-height: 27px;
+	padding-top: 8px;
+}
+.article h2 a{
+	color: #964040;
+	font-size: 21px;
+}
+.article a{
+	color:#333;
+	font-size: 13px;
+	text-decoration: none;
+	-moz-transition:color 0.5s;
+    -webkit-transition:color 0.5s;
+    -o-transition:color 0.5s;
+    transition:color 0.5s;
+}
+.article a:hover{
+	color: #51aded;	
+}
+.article h2{
+	display: inline;
+}
