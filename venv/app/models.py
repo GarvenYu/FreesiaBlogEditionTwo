@@ -6,8 +6,8 @@ from app import db
 
 class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20))
-    summary = db.Column(db.String(20))
+    title = db.Column(db.String(50))
+    summary = db.Column(db.Text)
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))  # 博客分类

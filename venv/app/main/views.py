@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, session, redirect, url_for, request, jsonify
+from flask import render_template, session, redirect, url_for, request, jsonify,current_app
 import json
 import logging
 from datetime import datetime
@@ -15,8 +15,11 @@ logger = logging.getLogger()
 
 @main.route('/mainPage', methods=['GET'])
 def index():
-    name = session.get('name')
-    return render_template('home/mainPage.html', name=name)
+    page = request.args.get('page', 1, type=int)
+    pagination = Blog.query.order_by(Blog.timestamp.desc()).paginate(
+        page, per_page=current_app.config['BLOGS_PER_PAGE'], error_out=False)
+    items = pagination.items
+    return render_template('home/mainPage.html', items=items, pagination=pagination)
 
 
 @main.route('/write', methods=['GET', 'POST'])

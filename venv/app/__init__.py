@@ -15,6 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost/freesiawebsite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['SECRET_KEY'] = 'something'
+    app.config['BLOGS_PER_PAGE'] = 6
 
     bootstrap.init_app(app)
     db.init_app(app)
