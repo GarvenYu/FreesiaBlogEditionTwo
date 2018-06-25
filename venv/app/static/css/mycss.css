@@ -1,3 +1,8 @@
+html, body {
+    margin: 0;/*清除默认样式*/
+    padding: 0;
+    height: 100%;
+}
 .article{
 	padding: 10px;
 	font-size: 21px;
@@ -33,4 +38,35 @@
 }
 .article h2{
 	display: inline;
+}
+
+.footer{
+    background-color: #23282D;
+    color:#eee;
+    text-align: center;
+    font-size: 16px;
+    padding: 20px 0 10px;
+}
+.footer a{
+    background-color: #23282D;
+    color:#eee;
+    -moz-transition:border-color 0.5s;
+    -webkit-transition:border-color 0.5s;
+    -o-transition:border-color 0.5s;
+    transition:border-color 0.5s;
+}
+.footer a:hover{
+	color: rgba(255,255,255,.5);
+    background-color: #23282D;
+    border-color: #eee;
+}
+.footer a:visited{
+	color: #eee;
+    background-color: #23282D;
+}
+.footer p{
+    color:#eee;
+    text-align: center;
+    font-size: 16px;
+    margin: 0;
 }

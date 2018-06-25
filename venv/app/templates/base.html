@@ -9,6 +9,8 @@
 
 {% block styles %}
     {{ super() }}
+    <link href="{{url_for('static', filename='css/mycss.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
@@ -53,7 +55,25 @@
     </nav>
 {% endblock %}
 {% block content %}
-<div class="container">
-    {% block page_content %}{% endblock %}
-</div><!-- /.container -->
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+    <footer>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group">
+                            <div>
+                                <a class="btn" href="https://github.com/GarvenYu" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+                            </div>
+                            <a class="btn" href="https://github.com/GarvenYu" target="_blank">Github</a>
+                        </div>
+                        <p>粤ICP备18010359号</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 {% endblock %}
