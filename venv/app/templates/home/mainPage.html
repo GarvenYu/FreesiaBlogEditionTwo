@@ -14,8 +14,10 @@
       <div class="col-md-12 col-sm-12">
           <i class="fas fa-bookmark fa-lg"></i><span style="font-size:18px;margin-left: 5px">最近文章</span>
               {{ macros.render_blogs(items) }}
-          <div class="pagination">
+          <div style="text-align: center">
+              <div class="pagination">
               {{ macros.render_pagination(pagination, '.index') }}
+              </div>
           </div>
       </div>
   </div>
