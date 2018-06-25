@@ -16,7 +16,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['SECRET_KEY'] = 'something'
     app.config['BLOGS_PER_PAGE'] = 6
-
+    app.jinja_env.filters['format_date'] = format_date
+    app.jinja_env.filters['format_time'] = format_time
     bootstrap.init_app(app)
     db.init_app(app)
 
@@ -24,3 +25,11 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     return app
+
+
+def format_date(datetime):
+    return datetime.strftime('%Y')+'年'+datetime.strftime('%m')+'月'+datetime.strftime('%d')+'日'
+
+
+def format_time(datetime):
+    return datetime.strftime('%H')+':'+datetime.strftime('%M')+':'+datetime.strftime('%S')
