@@ -47,3 +47,27 @@
         </article>
     {% endfor %}
 {% endmacro %}
+
+{% macro render_aside(items) %}
+    <aside class="aside">
+        <ul class="nav nav-tabs" role="tablist" id="myTabs">
+          <li role="presentation" class="active"><a href="#recentArticle" aria-controls="recentArticle" role="tab" data-
+            toggle="tab">最近文章</a></li>
+          <li role="presentation"><a href="#blogKind" aria-controls="blogKind" role="tab" data-
+            toggle="tab">博客分类</a></li>
+          <li role="presentation"><a href="#test" aria-controls="test" role="tab" data-
+            toggle="tab">测试测试</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="recentArticle">
+        {% for item in items %}
+            {% if item %}
+                <a href="#" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
+            {% endif %}
+        {% endfor %}
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="blogKind">blog</div>
+          <div role="tabpanel" class="tab-pane fade" id="test">test</div>
+        </div>
+      </aside>
+{% endmacro %}

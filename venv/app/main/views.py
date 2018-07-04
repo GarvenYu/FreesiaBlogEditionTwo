@@ -38,3 +38,7 @@ def save_blog():
     db.session.add(blog)
     db.session.commit()
     return jsonify(msg='success')
+
+
+@main.route('/blogDetail', methods=['GET'])
+def check_blog():
