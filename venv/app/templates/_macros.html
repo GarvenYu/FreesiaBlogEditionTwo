@@ -30,11 +30,11 @@
 </nav>
 {% endmacro %}
 
-{% macro render_blogs(items) %}
+{% macro render_blogs(items, endPoint) %}
     {% for item in items %}
         <article class="article">
           <h2>
-            <a href="#" class="blogTitle">{{ item.title }}</a>
+            <a href="/detail/{{ item.id }}" class="blogTitle">{{ item.title }}</a>
           </h2>
             <p>{{ item.summary }}</p>
             <div>

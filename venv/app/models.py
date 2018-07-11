@@ -21,7 +21,7 @@ class Blog(db.Model):
         self.category = category
 
     def __repr__(self):
-        return '<Blog %r>' % self.tag
+        return '<Blog %r>' % self.title
 
 
 class Category(db.Model):

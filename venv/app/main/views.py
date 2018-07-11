@@ -8,6 +8,7 @@ from datetime import datetime
 from . import main
 from ..models import Category, Blog
 from .. import db
+import markdown
 
 
 logger = logging.getLogger()
@@ -40,5 +41,8 @@ def save_blog():
     return jsonify(msg='success')
 
 
-@main.route('/blogDetail', methods=['GET'])
-def check_blog():
+@main.route('/detail/<int:id>', methods=['GET'])
+def check_blog(id):
+    blog = Blog.query.filter_by(id=id).first()
+    blog.content = markdown.markdown(blog.content)
+    return render_template('blog/blog_detail.html', blog=blog)
