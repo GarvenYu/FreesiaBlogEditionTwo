@@ -62,11 +62,17 @@ html, body {
 	margin: 0 5px 0 0;
 }
 .footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 90px;
+	clear: both;
     background-color: #23282D;
     color:#eee;
     text-align: center;
     font-size: 16px;
-    padding: 20px 0 10px;
+    /*padding: 20px 0 10px;*/
 }
 .footer a{
     background-color: #23282D;

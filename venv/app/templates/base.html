@@ -55,25 +55,20 @@
     </nav>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container" style="min-height: 100%">
         {% block page_content %}{% endblock %}
     </div>
+    <div class="container-fluid" style="padding-bottom: 90px; position: relative">
     <footer>
         <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="btn-group">
-                            <div>
-                                <a class="btn" href="https://github.com/GarvenYu" target="_blank"><i class="fab fa-github fa-lg"></i></a>
-                            </div>
-                            <a class="btn" href="https://github.com/GarvenYu" target="_blank">Github</a>
-                        </div>
-                        <p>粤ICP备18010359号</p>
-                    </div>
+            <div class="btn-group">
+                <div>
+                    <a class="btn" href="https://github.com/GarvenYu" target="_blank"><i class="fab fa-github fa-lg"></i></a>
                 </div>
+                <a class="btn" href="https://github.com/GarvenYu" target="_blank">Github</a>
             </div>
+            <p>粤ICP备18010359号</p>
         </div>
     </footer>
-
+</div>
 {% endblock %}
