@@ -30,7 +30,7 @@
 </nav>
 {% endmacro %}
 
-{% macro render_blogs(items, endPoint) %}
+{% macro render_blogs(items, endpoint) %}
     {% for item in items %}
         <article class="article">
           <h2>
@@ -42,13 +42,13 @@
               <i class="fas fa-user-circle fa-lg"></i><span style="font-size:13px;margin: 0 5px">Freesia</span>
               <i class="fas fa-calendar fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_date}}</span>
               <i class="fas fa-clock fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_time}}</span>
-              <a class="pull-right" title="阅读全文" href="#">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
+              <a class="pull-right" title="阅读全文" href="/detail/{{ item.id }}">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
             </div>
         </article>
     {% endfor %}
 {% endmacro %}
 
-{% macro render_aside(items) %}
+{% macro render_aside(sideitems, kindnumber, endpoint) %}
     <aside class="aside">
         <ul class="nav nav-tabs" role="tablist" id="myTabs">
           <li role="presentation" class="active"><a href="#recentArticle" aria-controls="recentArticle" role="tab" data-
@@ -56,17 +56,21 @@
           <li role="presentation"><a href="#blogKind" aria-controls="blogKind" role="tab" data-
             toggle="tab">博客分类</a></li>
           <li role="presentation"><a href="#test" aria-controls="test" role="tab" data-
-            toggle="tab">测试测试</a></li>
+            toggle="tab">最近留言</a></li>
         </ul>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="recentArticle">
-        {% for item in items %}
+        {% for item in sideitems %}
             {% if item %}
-                <a href="#" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
+                <a href="/detail/{{ item.id }}" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
             {% endif %}
         {% endfor %}
           </div>
-          <div role="tabpanel" class="tab-pane fade" id="blogKind">blog</div>
+          <div role="tabpanel" class="tab-pane fade" id="blogKind">
+            {% for item in kindnumber %}
+              <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
+            {% endfor %}
+          </div>
           <div role="tabpanel" class="tab-pane fade" id="test">test</div>
         </div>
       </aside>

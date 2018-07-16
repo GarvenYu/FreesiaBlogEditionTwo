@@ -7,6 +7,18 @@
 {% block styles %}
     {{ super() }}
 {% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function(){
+        $('#myTabs a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+        });
+    });
+    </script>
+
+{% endblock %}
 {% block page_content %}
 <div style="padding-top:60px">
 <div class="row">
@@ -16,13 +28,17 @@
               {{ macros.render_blogs(items, '.check_blog') }}
           <div style="text-align: center">
               <div class="pagination">
-              {{ macros.render_pagination(pagination, '.index') }}
+                  {% if mainPage %}
+                    {{ macros.render_pagination(pagination, '.index') }}
+                  {% else %}
+                    {{ macros.render_pagination(pagination, '.get_blog_by_kind', category_id=category_id) }}
+                  {% endif %}
               </div>
           </div>
       </div>
   </div>
   <div class="col-md-4">
-      {{ macros.render_aside(items) }}
+      {{ macros.render_aside(sideitems, kindnumber, '.get_blog_by_kind') }}
       {#轮播图片#}
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
