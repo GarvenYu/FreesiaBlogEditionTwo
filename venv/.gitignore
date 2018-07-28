@@ -1,0 +1,12 @@
+/Include/
+/Lib/
+/Scripts/
+/tcl/
+pip-selfcheck.json
+**/.idea/
+app/__pycache__/
+app/main/__pycache__/
+app/static/images/
+app/static/fonts/
+app/static/webfonts/
+app/FlaskConf.conf
