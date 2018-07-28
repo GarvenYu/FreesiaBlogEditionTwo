@@ -4,7 +4,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-
+import configparser
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -12,10 +12,12 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost/freesiawebsite'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    app.config['SECRET_KEY'] = 'something'
-    app.config['BLOGS_PER_PAGE'] = 6
+    config = configparser.ConfigParser()
+    config.read('FlaskConf.conf')
+    app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy']['SQLALCHEMY_DATABASE_URI']
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy'].getboolean('SQLALCHEMY_TRACK_MODIFICATIONS')
+    app.config['SECRET_KEY'] = config['app']['SECRET_KEY']
+    app.config['BLOGS_PER_PAGE'] = config['app'].getint('BLOGS_PER_PAGE')
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_time'] = format_time
     bootstrap.init_app(app)

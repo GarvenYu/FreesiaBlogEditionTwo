@@ -42,7 +42,7 @@
               <i class="fas fa-user-circle fa-lg"></i><span style="font-size:13px;margin: 0 5px">Freesia</span>
               <i class="fas fa-calendar fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_date}}</span>
               <i class="fas fa-clock fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_time}}</span>
-              <a class="pull-right" title="阅读全文" href="/detail/{{ item.id }}">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
+              <a class="pull-right" title="阅读全文" href="{{ url_for('.check_blog',id=item.id) }}">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
             </div>
         </article>
     {% endfor %}
@@ -62,7 +62,7 @@
           <div role="tabpanel" class="tab-pane fade in active" id="recentArticle">
         {% for item in sideitems %}
             {% if item %}
-                <a href="/detail/{{ item.id }}" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
+                <a href="{{ url_for('.check_blog',id=item.id) }}" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
             {% endif %}
         {% endfor %}
           </div>
@@ -71,7 +71,15 @@
               <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
             {% endfor %}
           </div>
-          <div role="tabpanel" class="tab-pane fade" id="test">test</div>
+          <div role="tabpanel" class="tab-pane fade" id="test">暂未开放</div>
         </div>
       </aside>
+{% endmacro %}
+
+{% macro render_blog_kind(kindnumber, endpoint) %}
+        {% for item in kindnumber %}
+          <li>
+            <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
+          </li>
+        {% endfor %}
 {% endmacro %}
