@@ -24,6 +24,10 @@
 <div class="row">
   <div class="col-md-8">
       <div class="col-md-12 col-sm-12">
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>获取博客列表成功!</strong>
+          </div>
           <i class="fas fa-bookmark fa-lg"></i><span style="font-size:18px;margin-left: 5px">最近文章</span>
               {{ macros.render_blogs(items, '.check_blog') }}
           <div style="text-align: center">
