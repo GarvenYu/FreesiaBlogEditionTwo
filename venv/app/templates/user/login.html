@@ -23,18 +23,18 @@
 
     <div class="container">
 
-      <form class="form-signin">
+      <form class="form-signin" action="{{ url_for(".auth_login") }}" method="post">
         <h2 class="form-signin-heading">Freesia博客登录</h2>
         <label for="inputEmail" class="sr-only">邮箱</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="邮箱地址" required autofocus>
+        <input type="email" name="inputEmail" class="form-control" placeholder="邮箱地址" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+        <input type="password" name="inputPassword" class="form-control" placeholder="密码" required>
         <div class="checkbox">
           <label>
-            <input type="checkbox" value="remember-me"> 记住我
+            <input type="checkbox" value="remember" name="remember_me"> 记住我
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="登录">
       </form>
 
     </div> <!-- /container -->

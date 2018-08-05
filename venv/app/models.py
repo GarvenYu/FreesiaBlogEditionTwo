@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import db
+from flask_login import UserMixin
 
 
 class Blog(db.Model):
@@ -28,8 +29,22 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
 
-    def __init__(self, id):
+    def __init__(self, id=None, name=None):
         self.id = id
+        self.name = name
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
+
+    def __init__(self, email=None, password_hash=None):
+        self.email = email
+        self.password_hash = password_hash
+
+    def verify_password(self, password):
+        return self.password_hash == password
