@@ -19,6 +19,8 @@ def auth_login():
     password = request.form['inputPassword']
     remember = request.form['remember_me']
     user = User.query.filter_by(email=email).first()
-    if not user and user.verify_password(password):
+    if user and user.verify_password(password):
         return redirect(url_for('main.index'))
-    flash("Invalid Data")
+    else:
+        flash("Invalid Data")
+        return redirect(url_for('auth.login'))

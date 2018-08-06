@@ -22,7 +22,12 @@
   <body>
 
     <div class="container">
-
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{ message }}</strong>
+          </div>
+        {% endfor %}
       <form class="form-signin" action="{{ url_for(".auth_login") }}" method="post">
         <h2 class="form-signin-heading">Freesia博客登录</h2>
         <label for="inputEmail" class="sr-only">邮箱</label>

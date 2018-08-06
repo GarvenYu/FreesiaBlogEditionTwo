@@ -5,15 +5,17 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 import configparser
+import os
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def create_app():
     app = Flask(__name__)
     config = configparser.ConfigParser()
-    config.read('FlaskConf.conf')
+    config.read_file(open(CURRENT_PATH + '/resource/defaults.cfg'))
     app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy']['SQLALCHEMY_DATABASE_URI']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['sqlalchemy'].getboolean('SQLALCHEMY_TRACK_MODIFICATIONS')
     app.config['SECRET_KEY'] = config['app']['SECRET_KEY']
