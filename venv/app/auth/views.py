@@ -15,12 +15,12 @@ def login():
 @auth.route('/authLogin', methods=['POST'])
 def auth_login():
     """验证登录"""
-    email = request.form['inputEmail']
-    password = request.form['inputPassword']
-    remember = request.form['remember_me']
+    email = request.form.get('inputEmail', None)
+    password = request.form.get('inputPassword', None)
+    remember = request.form.get('remember_me', None)
     user = User.query.filter_by(email=email).first()
     if user and user.verify_password(password):
         return redirect(url_for('main.index'))
     else:
-        flash("Invalid Data")
+        flash("账号或密码错误!")
         return redirect(url_for('auth.login'))
