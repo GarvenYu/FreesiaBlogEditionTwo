@@ -3,6 +3,7 @@
 
 from . import auth
 from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_user
 from ..models import User
 
 
@@ -17,10 +18,12 @@ def auth_login():
     """验证登录"""
     email = request.form.get('inputEmail', None)
     password = request.form.get('inputPassword', None)
-    remember = request.form.get('remember_me', None)
+    remember = True if request.form.get('remember_me', None) else False
     user = User.query.filter_by(email=email).first()
     if user and user.verify_password(password):
-        return redirect(url_for('main.index'))
+        # 存储用户信息
+        login_user(user, remember=remember)
+        return redirect(request.args.get('next') or url_for('main.index'))
     else:
         flash("账号或密码错误!")
         return redirect(url_for('auth.login'))

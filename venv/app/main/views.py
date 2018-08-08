@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, session, redirect, url_for, request, jsonify, current_app
+from flask import render_template, request, jsonify, current_app
 import json
 import logging
 from datetime import datetime
@@ -10,26 +10,28 @@ from ..models import Category, Blog
 from .. import db
 import markdown
 from sqlalchemy import func
+from flask_login import login_required
 
 
 logger = logging.getLogger()
 
-
+    
 @main.route('/mainPage', methods=['GET'])
 def index():
     """获取首页数据"""
     page = request.args.get('page', 1, type=int)
     pagination = Blog.query.order_by(Blog.timestamp.desc()).paginate(
-        page, per_page=current_app.config['BLOGS_PER_PAGE'], error_out=False)
+        page, per_page=current_app.config['BLOG_PER_PAGE'], error_out=False)
     items = pagination.items
-    kindNumber = db.session.query(Category.name, Category.id, func.count(Blog.category_id))\
-        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()  # List[tuple, tuple]
-    sideItems = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
-    return render_template('home/mainPage.html', items=items, sideitems=sideItems,
-                           pagination=pagination, kindnumber=kindNumber, mainPage=True)
+    kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
+    side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
+    return render_template('home/mainPage.html', items=items, sideitems=side_items,
+                           pagination=pagination, kindnumber=kind_number, mainPage=True)
 
 
 @main.route('/write', methods=['GET', 'POST'])
+@login_required
 def write_blog():
     """编辑博客"""
     categories = Category.query.all()
@@ -56,7 +58,9 @@ def check_blog(id):
     """获取博客详情"""
     blog = Blog.query.filter_by(id=id).first()
     blog.content = markdown.markdown(blog.content)
-    return render_template('blog/blog_detail.html', blog=blog)
+    kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
+    return render_template('blog/blog_detail.html', blog=blog, kindnumber=kind_number)
 
 
 @main.route('/blogkind', methods=['GET'])
@@ -65,10 +69,10 @@ def get_blog_by_kind():
     page = request.args.get('page', 1, type=int)
     category_id = request.args.get('category_id', type=int)
     pagination = Blog.query.filter_by(category_id=category_id).order_by(Blog.timestamp.desc()).paginate(
-        page, per_page=current_app.config['BLOGS_PER_PAGE'], error_out=False)
+        page, per_page=current_app.config['BLOG_PER_PAGE'], error_out=False)
     items = pagination.items
     kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
-        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()  # List[tuple, tuple]
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
     side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
                            pagination=pagination, kindnumber=kind_number, category_id=category_id, mainPage=False)
