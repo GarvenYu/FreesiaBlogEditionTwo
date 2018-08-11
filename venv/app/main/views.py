@@ -76,3 +76,8 @@ def get_blog_by_kind():
     side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
                            pagination=pagination, kindnumber=kind_number, category_id=category_id, mainPage=False)
+
+
+@main.route('/message', methods=['GET'])
+def show_message():
+    return render_template('blog/leave_message.html')

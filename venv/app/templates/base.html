@@ -36,9 +36,10 @@
                 {{ macros.render_blog_kind(kindnumber, '.get_blog_by_kind') }}
               </ul>
             </li>
+            <li><a href="{{ url_for('.show_message') }}" style="font-size: 18px">留言板</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fas fa-user-plus fa-lg"></i> 注册</a></li>
+            {#<li><a href="#"><i class="fas fa-user-plus fa-lg"></i> 注册</a></li>#}
             <li><a href="{{ url_for("auth.login") }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
         </ul>
         </div>

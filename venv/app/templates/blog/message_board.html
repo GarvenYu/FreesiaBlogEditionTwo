@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}留言板{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block styles %}
+    <link href="{{url_for('static', filename='css/mycss.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+{% block page_content %}
+<div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
+        <div id="comment_body" class="comment_area">
+          <div class="comment_area_block">
+              <h3>留言板</h3>
+          </div>
+          <div class="comment_area_block">
+            <form class="comment_textarea">
+              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
+              <div>
+                <i class="far fa-user"></i>
+                <input type="text" name="" placeholder="昵称">
+              </div>              
+              <input type="submit" id="submit_message" value="提交">
+            </form>              
+          </div>
+          <div class="comment_area_block"><h3>最近留言</h3></div>
+          <div class="comment_area_block">
+            <h3 class="message-block-author-name">game</h3>
+            <p>hhhhhh哈哈哈哈哈哈哈或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或</p>
+            <div>
+              <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
+              <span class="message-block-button"><i class="fas fa-angle-double-down"></i>展开</span>
+              <i class="far fa-clock"></i>
+              <span>时间xxxx年xx月xx日 00:00:00</span>
+            </div>
+          </div>
+          <div class="comment_area_block"></div>
+        </div>
+    </div>
+{% endblock %}
+
