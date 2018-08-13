@@ -1,0 +1,30 @@
+/**
+* 留言板js
+*/
+$(function(){
+	$("i.fa-angle-double-down").click(function(){
+		if($(this).hasClass("fa-angle-double-down")){
+          $(this).removeClass("fa-angle-double-down")
+          .addClass("fa-angle-double-up")
+          .next()
+          .text("收起");
+		}else{
+		  $(this).removeClass("fa-angle-double-up")
+		  .addClass("fa-angle-double-down")
+		  .next()
+		  .text("展开");
+		}
+		$("#div2").toggle(800);
+    });
+    $(".message-block-button").hover(
+    	function(){
+    		$(this).css({"background-color":"#00B38F","color":"white"});
+    	},
+    	function(){
+    		$(this).css({"background-color":"white","color":"#00B38F"});
+    	}
+    );
+    $("i.fa-comment").click(function(){
+
+    });
+});

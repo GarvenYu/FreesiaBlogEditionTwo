@@ -5,13 +5,14 @@
     {{ super() }}
 {% endblock %}
 {% block styles %}
-    <link href="{{url_for('static', filename='css/mycss.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/base.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block scripts %}
     {{ super() }}
+    <script type="text/javascript" src="{{url_for('static', filename='js/message-board.js')}}"></script>
 {% endblock %}
 {% block page_content %}
 <div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
@@ -33,11 +34,44 @@
           <div class="comment_area_block">
             <h3 class="message-block-author-name">game</h3>
             <p>hhhhhh哈哈哈哈哈哈哈或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或</p>
-            <div>
-              <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
-              <span class="message-block-button"><i class="fas fa-angle-double-down"></i>展开</span>
-              <i class="far fa-clock"></i>
-              <span>时间xxxx年xx月xx日 00:00:00</span>
+            <div class="row">
+              <div class="col-md-8">
+                <span class="message-block-button"><i class="far fa-comment"></i><span style="margin-left: 3px">回复</span></span>
+                <span class="message-block-button"><i class="fas fa-angle-double-down"></i><span style="margin-left: 3px">展开</span></span>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <i class="far fa-clock"></i>
+                xxxx年xx月xx日 00:00:00
+              </div>
+            </div>
+          </div>
+
+          <div class="comment_area_block" style="display: none; margin-left: 10px" id="div2">
+            <h3 class="message-block-author-name">black</h3>
+            <p>我是折叠</p>
+            <div class="row">
+              <div class="col-md-8">
+                <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <i class="far fa-clock"></i>
+                xxxx年xx月xx日 00:00:00
+              </div>
+            </div>
+          </div>
+
+          <div class="comment_area_block">
+            <h3 class="message-block-author-name">black</h3>
+            <p>hhhhhh哈哈哈哈哈哈哈或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或或哈哈哈哈哈哈哈或或或或</p>
+            <div class="row">
+              <div class="col-md-8">
+                <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
+                <span class="message-block-button"><i class="fas fa-angle-double-down"></i>展开</span>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <i class="far fa-clock"></i>
+                xxxx年xx月xx日 00:00:00
+              </div>
             </div>
           </div>
           <div class="comment_area_block"></div>
