@@ -7,7 +7,7 @@ $(function(){
           $(this).removeClass("fa-angle-double-down")
           .addClass("fa-angle-double-up")
           .next()
-          .text("收起");
+          .text("收起");          
 		}else{
 		  $(this).removeClass("fa-angle-double-up")
 		  .addClass("fa-angle-double-down")
@@ -24,7 +24,37 @@ $(function(){
     		$(this).css({"background-color":"white","color":"#00B38F"});
     	}
     );
+    $(".verify-btn").hover(
+      function(){
+        $(this).css({"background-color":"#00B38F","color":"white"});
+      },
+      function(){
+        $(this).css({"background-color":"white","color":"#00B38F"});
+      }
+    );  
     $("i.fa-comment").click(function(){
+    	
+    });
+    $('#mpanel1').codeVerify({
 
+    //常规验证码type=1， 运算验证码type=2
+    type : 1,
+  
+    //验证码宽度
+    width : '400px',
+    
+    //验证码高度
+    height : '50px',
+    codeLength : 4,
+    //提交按钮的id名称
+    btnId : 'check-btn',
+
+    //验证成功以后的回调
+    success : function() {
+      alert('验证匹配！');
+    },
+    error : function(){
+      alert('验证码错误！');
+    },
     });
 });

@@ -18,17 +18,21 @@
 <div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
         <div id="comment_body" class="comment_area">
           <div class="comment_area_block">
-              <h3>留言板</h3>
+              <h3>留言板<i class="far fa-clipboard"></i></h3>
           </div>
           <div class="comment_area_block">
-            <form class="comment_textarea">
+            <div class="comment_textarea" id="mpanel1">
               <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
               <div>
                 <i class="far fa-user"></i>
                 <input type="text" name="" placeholder="昵称">
-              </div>              
-              <input type="submit" id="submit_message" value="提交">
-            </form>              
+                <i class="far fa-edit"></i>
+                <input type="text" name="" placeholder="验证码" class="varify-input-code">
+                <div class="verify-code"></div>
+                <a class="verify-change-code">换一张</a>
+                <button id="check-btn" class="verify-btn">确定</button>
+              </div>                           
+            </div>             
           </div>
           <div class="comment_area_block"><h3>最近留言</h3></div>
           <div class="comment_area_block">
@@ -38,11 +42,11 @@
               <div class="col-md-8">
                 <span class="message-block-button"><i class="far fa-comment"></i><span style="margin-left: 3px">回复</span></span>
                 <span class="message-block-button"><i class="fas fa-angle-double-down"></i><span style="margin-left: 3px">展开</span></span>
-              </div>
+              </div>              
               <div class="col-md-3 col-md-offset-1">
                 <i class="far fa-clock"></i>
                 xxxx年xx月xx日 00:00:00
-              </div>
+              </div>              
             </div>
           </div>
 
@@ -52,11 +56,11 @@
             <div class="row">
               <div class="col-md-8">
                 <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
-              </div>
+              </div>              
               <div class="col-md-3 col-md-offset-1">
                 <i class="far fa-clock"></i>
                 xxxx年xx月xx日 00:00:00
-              </div>
+              </div>              
             </div>
           </div>
 
@@ -67,11 +71,11 @@
               <div class="col-md-8">
                 <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
                 <span class="message-block-button"><i class="fas fa-angle-double-down"></i>展开</span>
-              </div>
+              </div>              
               <div class="col-md-3 col-md-offset-1">
                 <i class="far fa-clock"></i>
                 xxxx年xx月xx日 00:00:00
-              </div>
+              </div>              
             </div>
           </div>
           <div class="comment_area_block"></div>
