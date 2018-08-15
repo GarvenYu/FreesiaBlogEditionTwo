@@ -9,25 +9,27 @@
     <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/verify.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block scripts %}
     {{ super() }}
     <script type="text/javascript" src="{{url_for('static', filename='js/message-board.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/verify.js')}}"></script>
 {% endblock %}
 {% block page_content %}
 <div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
         <div id="comment_body" class="comment_area">
           <div class="comment_area_block">
-              <h3>留言板<i class="far fa-clipboard"></i></h3>
+              <h3>留言板</h3>
           </div>
           <div class="comment_area_block">
             <div class="comment_textarea" id="mpanel1">
-              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
+              <textarea placeholder="Type here..." autofocus maxlength="200" id="message_content"></textarea>
               <div>
                 <i class="far fa-user"></i>
-                <input type="text" name="" placeholder="昵称">
+                <input type="text" id="user_name_input" placeholder="昵称">
                 <i class="far fa-edit"></i>
-                <input type="text" name="" placeholder="验证码" class="varify-input-code">
+                <input type="text" placeholder="验证码" class="varify-input-code">
                 <div class="verify-code"></div>
                 <a class="verify-change-code">换一张</a>
                 <button id="check-btn" class="verify-btn">确定</button>

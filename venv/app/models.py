@@ -6,6 +6,7 @@ from flask_login import UserMixin
 
 
 class Blog(db.Model):
+    """博客model"""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     summary = db.Column(db.Text)
@@ -26,6 +27,7 @@ class Blog(db.Model):
 
 
 class Category(db.Model):
+    """博客种类model"""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
 
@@ -38,6 +40,7 @@ class Category(db.Model):
 
 
 class User(db.Model, UserMixin):
+    """用户model"""
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, index=True)
     password_hash = db.Column(db.String(128))
@@ -48,6 +51,20 @@ class User(db.Model, UserMixin):
 
     def verify_password(self, password):
         return self.password_hash == password
+
+
+class Message(db.Model):
+    """留言model"""
+    __tablename__ = "bbs_bas_inf"
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(50))
+    msg_content = db.Column(db.Text)
+    msg_time = db.Column(db.DateTime)
+
+    def __init__(self, user_name, msg_content, msg_time):
+        self.user_name = user_name
+        self.msg_content = msg_content
+        self.msg_time = msg_time
 
 
 @login_manager.user_loader

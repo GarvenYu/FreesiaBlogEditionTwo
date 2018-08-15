@@ -6,7 +6,7 @@ import json
 import logging
 from datetime import datetime
 from . import main
-from ..models import Category, Blog
+from ..models import Category, Blog, Message
 from .. import db
 import markdown
 from sqlalchemy import func
@@ -80,4 +80,17 @@ def get_blog_by_kind():
 
 @main.route('/message', methods=['GET'])
 def show_message():
-    return render_template('blog/leave_message.html')
+    return render_template('blog/message_board.html')
+
+
+@main.route('/saveMessage', methods=['POST'])
+def save_message():
+    """保存留言"""
+    message_data = json.loads(request.get_data())
+    if not message_data['user_name'] or not message_data['message_content']:
+        pass
+    else:
+        message = Message(message_data['user_name'], message_data['message_content'], datetime.now())
+        db.session.add(message)
+        db.session.commit()
+        return jsonify(msg='success')
