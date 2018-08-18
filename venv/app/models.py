@@ -60,11 +60,30 @@ class Message(db.Model):
     user_name = db.Column(db.String(50))
     msg_content = db.Column(db.Text)
     msg_time = db.Column(db.DateTime)
+    del_ind = db.Column(db.Integer, default=0)
+    replies = db.relationship("ReplyComment", backref="message", order_by="ReplyComment.reply_time")
 
     def __init__(self, user_name, msg_content, msg_time):
         self.user_name = user_name
         self.msg_content = msg_content
         self.msg_time = msg_time
+
+
+class ReplyComment(db.Model):
+    """回复model"""
+    __tablename__ = "reply_bas_inf"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_name = db.Column(db.String(50))
+    reply_content = db.Column(db.Text)
+    reply_time = db.Column(db.DateTime)
+    message_id = db.Column(db.Integer, db.ForeignKey("bbs_bas_inf.id"), nullable=False)
+    del_ind = db.Column(db.Integer, default=0)
+
+    def __init__(self, user_name, reply_content, reply_time, message_id):
+        self.user_name = user_name
+        self.reply_content = reply_content
+        self.reply_time = reply_time
+        self.message_id = message_id
 
 
 @login_manager.user_loader

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, jsonify, current_app
+from flask import render_template, request, jsonify, current_app, redirect, url_for
 import json
 import logging
 from datetime import datetime
@@ -90,7 +90,10 @@ def save_message():
     if not message_data['user_name'] or not message_data['message_content']:
         pass
     else:
+        """存储留言"""
         message = Message(message_data['user_name'], message_data['message_content'], datetime.now())
         db.session.add(message)
         db.session.commit()
-        return jsonify(msg='success')
+        """加载留言"""
+        message_list = Message.query.order_by(Message.msg_time.desc()).all()
+        return jsonify(messages=message_list)

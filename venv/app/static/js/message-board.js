@@ -58,7 +58,7 @@ $(function(){
             data : data,
             cache : false,
             success : function(data){
-                alert(data.msg);
+                // 遍历json数据
             }
         });
     },
