@@ -80,7 +80,9 @@ def get_blog_by_kind():
 
 @main.route('/message', methods=['GET'])
 def show_message():
-    return render_template('blog/message_board.html')
+    """加载留言"""
+    message_list = Message.query.order_by(Message.msg_time.desc()).all()
+    return render_template('blog/message_board.html', messages=message_list)
 
 
 @main.route('/saveMessage', methods=['POST'])
