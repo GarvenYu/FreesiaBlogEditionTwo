@@ -24,49 +24,16 @@
           </div>
           <div class="comment_area_block">
             <div class="comment_textarea" id="mpanel1">
-              <textarea placeholder="Type here..." autofocus maxlength="200" id="message_content"></textarea>
-              <div>
-                <i class="far fa-user"></i>
-                <input type="text" id="user_name_input" placeholder="昵称">
-                <i class="far fa-edit"></i>
-                <input type="text" placeholder="验证码" class="varify-input-code">
-                <div class="verify-code"></div>
-                <a class="verify-change-code">换一张</a>
-                <button id="check-btn" class="verify-btn">确定</button>
-              </div>                           
-            </div>             
-          </div>
-          <div class="comment_area_block"><h3>最近留言</h3></div>
-            {% for message in messages %}
-                <div class="comment_area_block">
-                    <h3 class="message-block-author-name">{{ message.user_name }}</h3>
-                    <p>{{ message.msg_content }}</p>
-                    <div class="row">
-                      <div class="col-md-8">
-                        <span class="message-block-button"><i class="far fa-comment"></i><span style="margin-left: 3px">回复</span></span>
-                        <span class="message-block-button"><i class="fas fa-angle-double-down"></i><span style="margin-left: 3px">展开</span></span>
-                      </div>
-                      <div class="col-md-3 col-md-offset-1">
-                        <i class="far fa-clock"></i>
-                        {{ message.msg_time | format_date}} {{ message.msg_time | format_time}}
-                      </div>
-                    </div>
-                  </div>
-            {% endfor %}
-          <div class="comment_area_block" style="display: none; margin-left: 10px" id="div2">
-            <h3 class="message-block-author-name">black</h3>
-            <p>我是折叠</p>
-            <div class="row">
-              <div class="col-md-8">
-                <span class="message-block-button"><i class="far fa-comment"></i>回复</span>
-              </div>              
-              <div class="col-md-3 col-md-offset-1">
-                <i class="far fa-clock"></i>
-                xxxx年xx月xx日 00:00:00
-              </div>              
+              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>
+                  <input type="text" class="form-control" placeholder="昵称" aria-describedby="basic-addon1" style="width: 20%">
+                </div>
+                <a id="check-btn" class="submit-btn">提交评论</a>
             </div>
           </div>
+          <div class="comment_area_block"><h3>最近留言</h3></div>
         </div>
-</div>
+    </div>
 {% endblock %}
 

@@ -37,15 +37,17 @@
 	color: #337AB7;
 	cursor: pointer;
 }
-
 .verify-btn {
-	border: 1px solid #00B38F;
-	color: #00B38F;
-    background-color: white;
-    display: block;
-    padding:  7px 20px;
-    border-radius: 10px;
-    outline: none;
+  color: #fff;
+  background-color: #16ac3a;
+  display: block;
+  width: 270px;
+  height: 44px;
+  border-radius: 5px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 

@@ -34,3 +34,16 @@
 	margin-right: 10px;
 	line-height: 18px;
 }
+.submit-btn {
+  color: #fff;
+  background-color: #16ac3a;
+  display: block;
+  width: 270px;
+  height: 44px;
+  border-radius: 5px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 10px;
+}

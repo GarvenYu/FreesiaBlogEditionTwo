@@ -7,7 +7,7 @@ $(function(){
           $(this).removeClass("fa-angle-double-down")
           .addClass("fa-angle-double-up")
           .next()
-          .text("收起");          
+          .text("收起");
 		}else{
 		  $(this).removeClass("fa-angle-double-up")
 		  .addClass("fa-angle-double-down")
@@ -16,55 +16,18 @@ $(function(){
 		}
 		$("#div2").toggle(800);
     });
-    $(".message-block-button").hover(
-    	function(){
-    		$(this).css({"background-color":"#00B38F","color":"white"});
-    	},
-    	function(){
-    		$(this).css({"background-color":"white","color":"#00B38F"});
-    	}
-    );
-    $(".verify-btn").hover(
+    $(".submit-btn").hover(
       function(){
-        $(this).css({"background-color":"#00B38F","color":"white"});
+        $(this).css({"background-color":"#00962b","color":"#fff"});
       },
       function(){
-        $(this).css({"background-color":"white","color":"#00B38F"});
+        $(this).css({"background-color":"#16ac3a","color":"#fff"});
       }
-    );  
-    $("i.fa-comment").click(function(){
-    	
+    );
+    $("textarea").focus(function(){
+      $(this).css({"border":"1px solid #87CEFF"});
     });
-    $('#mpanel1').codeVerify({
-    //常规验证码type=1， 运算验证码type=2
-    type : 1,
-    //验证码宽度
-    width : '400px',
-    //验证码高度
-    height : '50px',
-    codeLength : 4,
-    //提交按钮的id名称
-    btnId : 'check-btn',
-    //验证成功以后的回调
-    success : function() {
-        let values = {};
-        values["user_name"] = $("#user_name_input").val();
-        values["message_content"] = $("#message_content").val();
-        let data = JSON.stringify(values);
-        $.ajax({
-            type : 'post',
-            url : 'saveMessage',
-            dataType : 'json',
-            data : data,
-            cache : false,
-            success : function(data){
-                // 遍历json数据
-            }
-        });
-    },
-    //验证错误以后的回调
-    error : function(){
-      alert('验证码错误！');
-    },
+    $("textarea").blur(function(){
+      $(this).css("border","1px solid #d9d9d9");
     });
 });
