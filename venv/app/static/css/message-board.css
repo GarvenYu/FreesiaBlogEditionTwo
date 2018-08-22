@@ -1,5 +1,5 @@
 .comment_area_block{
-    border-top:1px solid #848484;
+    border-top: 1px solid #eaeaea;
     margin:10px 0 5px 0;
     padding: 5px 0 0 0;
 }
@@ -15,12 +15,12 @@
 	text-decoration: none;
 }
 .comment_textarea textarea{
-	width: 75%;
+	width: 100%;
+	height: 12%;
 	margin-bottom: 10px;
+	outline: none;
 	resize: none;
-	border: 2px solid orange;
-	border-radius: 10px;
-	outline: none; 
+	border: 1px solid #d9d9d9;
 }
 .message-block-author-name{
 	color:#256DC7;
