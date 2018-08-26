@@ -30,4 +30,8 @@ $(function(){
     $("textarea").blur(function(){
       $(this).css("border","1px solid #d9d9d9");
     });
+    $('#show-all-messages').showMessages({
+        commentList: [{'user_name':"qwer",'msg_content':"dddd",'msg_time':"2018-08-19 22:28:35"}
+        ,{'user_name':"qwer",'msg_content':"dddd",'msg_time':"2018-08-19 22:28:35"}]
+    });
 });

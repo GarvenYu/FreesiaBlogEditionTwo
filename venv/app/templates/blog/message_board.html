@@ -14,17 +14,17 @@
 {% block scripts %}
     {{ super() }}
     <script type="text/javascript" src="{{url_for('static', filename='js/message-board.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='js/verify.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/show-all-messages.js')}}"></script>
 {% endblock %}
 {% block page_content %}
 <div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
-        <div id="comment_body" class="comment_area">
-          <div class="comment_area_block">
+        <div id="comment_body" class="comment-area">
+          <div class="comment-area-block">
               <h3>留言板</h3>
           </div>
-          <div class="comment_area_block">
-            <div class="comment_textarea" id="mpanel1">
-              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
+          <div class="comment-area-block">
+            <div class="comment-textarea">
+              <textarea placeholder="Type here..." maxlength="200"></textarea>
                 <div class="input-group">
                   <span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>
                   <input type="text" class="form-control" placeholder="昵称" aria-describedby="basic-addon1" style="width: 20%">
@@ -32,8 +32,8 @@
                 <a id="check-btn" class="submit-btn">提交评论</a>
             </div>
           </div>
-          <div class="comment_area_block"><h3>最近留言</h3></div>
-            <div class="comment_area_block" id="show-all-messages">
+          <div class="comment-area-block"><h3>最近留言</h3></div>
+            <div class="comment-area-block" id="show-all-messages">
 
             </div>
         </div>
