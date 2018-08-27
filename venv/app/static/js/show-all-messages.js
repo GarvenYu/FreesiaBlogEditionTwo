@@ -16,9 +16,7 @@
     fn.init = function () {
         this.initNode(); //初始化评论区DOM节点
         this.options.parentNode.html(this.body); //节点放入容器中
-        if(this.options.commentList.length>0){
-            this.showList(this.options.commentList); //显示评论
-        }
+        this.showList(this.options.commentList); //显示评论
     };
     fn.initNode = function () {
         //初始化动作
@@ -34,31 +32,44 @@
         this.commentListUl = this.body.find(".cmt-list").eq(0); //评论列表容器
         this.noCommentAreaDiv = this.body.find(".no-cmt").eq(0); //无评论时容器
     };
-    fn.showList = function (commentList) {
+    fn.showList = function () {
+        let self = this;
         let commentHtml = "";
-        for(let i=0;i<commentList.length;i++){
-            //处理每条评论
-            let comment = commentList[i];
-            commentHtml+='<li class="cmt-list-li">'+
-                            '<div class="head-img g-col-1">' +
-                                '<img src="../static/images/photo.png"/>' +
-                            '</div>' +
-                            '<div class="content g-col-18">' +
-                                '<div class="f-clear">' +
-                                    '<span class="comment-name">'+comment.user_name+'</span>' +
-                                    '<span class="comment-time">'+comment.msg_time+'</span>' +
-                                '</div>' +
-                                '<div class="parent-comment">'+
-                                    '<span>'+comment.msg_content+'</span>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="g-col-1 f-float-right">'+
-                                '<sapn class="reply-button">回复</span>' +
-                            '</div>' +
-                            '</li>'
-        }
-        this.noCommentAreaDiv.css("display","none");
-        this.commentListUl.html(commentHtml);
+        //构造异步请求
+        $.ajax({
+            type : 'post',
+            url : 'getMessage',
+            dataType : 'json',
+            cache : false,
+            success : function(result){
+                //alert(result.data);
+                let commentList = result;
+                for(let i=0;i<commentList.length;i++){
+                    //处理每条评论
+                    let comment = commentList[i];
+                    self.options.commentList.push(comment);
+                    commentHtml+='<li class="cmt-list-li">'+
+                                    '<div class="head-img g-col-1">' +
+                                        '<img src="../static/images/photo.png"/>' +
+                                    '</div>' +
+                                    '<div class="content g-col-18">' +
+                                        '<div class="f-clear">' +
+                                            '<span class="comment-name">'+comment.user_name+'</span>' +
+                                            '<span class="comment-time">'+comment.msg_time+'</span>' +
+                                        '</div>' +
+                                        '<div class="parent-comment">'+
+                                            '<span>'+comment.msg_content+'</span>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="g-col-1 f-float-right">'+
+                                        '<sapn class="reply-button">回复</span>' +
+                                    '</div>' +
+                                    '</li>'
+                }
+                self.noCommentAreaDiv.css("display","none");
+                self.commentListUl.html(commentHtml);
+            }
+        });
     };
     //插件接口
     $.fn.showMessages = function(options, callbacks) {

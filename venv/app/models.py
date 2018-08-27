@@ -3,6 +3,7 @@
 
 from app import db, login_manager
 from flask_login import UserMixin
+import json
 
 
 class Blog(db.Model):
@@ -84,6 +85,18 @@ class ReplyComment(db.Model):
         self.reply_content = reply_content
         self.reply_time = reply_time
         self.message_id = message_id
+
+
+class MessageEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Message):
+            return {
+                        'id': obj.id,
+                        'user_name': obj.user_name,
+                        'msg_content': obj.msg_content,
+                        'msg_time': obj.msg_time.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+        return json.JSONEncoder.default(self, obj)
 
 
 @login_manager.user_loader

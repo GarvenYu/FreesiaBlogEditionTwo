@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, jsonify, current_app, redirect, url_for
+from flask import render_template, request, jsonify, current_app, redirect, url_for, make_response
 import json
 import logging
 from datetime import datetime
 from . import main
-from ..models import Category, Blog, Message
+from ..models import Category, Blog, Message, MessageEncoder
 from .. import db
 import markdown
 from sqlalchemy import func
@@ -80,9 +80,16 @@ def get_blog_by_kind():
 
 @main.route('/message', methods=['GET'])
 def show_message():
-    """加载留言"""
-    message_list = Message.query.order_by(Message.msg_time.desc()).all()
-    return render_template('blog/message_board.html', messages=message_list)
+    """加载页面"""
+    response = make_response(render_template('blog/message_board.html'))
+    return response
+
+
+@main.route('/getMessage', methods=['POST'])
+def get_message():
+    """加载页面"""
+    message_list = Message.query.filter_by(del_ind=0).order_by(Message.msg_time.desc()).all()
+    return json.dumps(message_list, cls=MessageEncoder)
 
 
 @main.route('/saveMessage', methods=['POST'])
