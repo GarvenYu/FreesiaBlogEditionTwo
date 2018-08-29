@@ -94,7 +94,12 @@ class MessageEncoder(json.JSONEncoder):
                         'id': obj.id,
                         'user_name': obj.user_name,
                         'msg_content': obj.msg_content,
-                        'msg_time': obj.msg_time.strftime('%Y-%m-%d %H:%M:%S')
+                        'msg_time': obj.msg_time.strftime('%Y-%m-%d %H:%M:%S'),
+                        'replies': [{'id': item.id,
+                                     'user_name': item.user_name,
+                                    'reply_content': item.reply_content,
+                                     'reply_time': item.reply_time.strftime('%Y-%m-%d %H:%M:%S'),
+                                     'message_id': item.message_id} for item in obj.replies]
                     }
         return json.JSONEncoder.default(self, obj)
 

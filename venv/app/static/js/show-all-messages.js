@@ -50,8 +50,7 @@
             cache : false,
             success : function(result){
                 //alert(result.data);
-                let commentList = JSON.parse(result[0]);
-                let replyList = JSON.parse(result[1]);
+                let commentList = result;
                 for(let i=0;i<commentList.length;i++){
                     //处理每条评论
                     let comment = commentList[i];

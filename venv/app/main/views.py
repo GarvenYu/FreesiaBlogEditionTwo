@@ -94,9 +94,9 @@ def get_message():
     message_list = Message.query.filter_by(del_ind=0).order_by(desc(Message.msg_time)).all()
     reply_list = ReplyComment.query.filter_by(del_ind=0).order_by(asc(ReplyComment.message_id),
                                                                   desc(ReplyComment.reply_time)).all()
-    result_list.append(json.dumps(message_list, cls=MessageEncoder))
-    result_list.append(json.dumps(reply_list, cls=ReplyEncoder))
-    return json.dumps(result_list)
+    # result_list.append(json.dumps(message_list, cls=MessageEncoder))
+    # result_list.append(json.dumps(reply_list, cls=ReplyEncoder))
+    return json.dumps(message_list, cls=MessageEncoder)
 
 
 @main.route('/saveMessage', methods=['POST'])
