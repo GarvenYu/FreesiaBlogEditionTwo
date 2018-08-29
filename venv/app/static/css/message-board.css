@@ -16,7 +16,7 @@
 }
 .comment-textarea textarea{
 	width: 100%;
-	height: 12%;
+	height: 100px;
 	margin-bottom: 10px;
 	outline: none;
 	resize: none;

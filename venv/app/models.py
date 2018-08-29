@@ -99,6 +99,19 @@ class MessageEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
+class ReplyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ReplyComment):
+            return {
+                        'id': obj.id,
+                        'user_name': obj.user_name,
+                        'reply_content': obj.reply_content,
+                        'reply_time': obj.reply_time.strftime('%Y-%m-%d %H:%M:%S'),
+                        'message_id': obj.message_id
+                    }
+        return json.JSONEncoder.default(self, obj)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

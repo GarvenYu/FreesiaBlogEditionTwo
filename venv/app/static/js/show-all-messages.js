@@ -16,6 +16,7 @@
     fn.init = function () {
         this.initNode(); //初始化评论区DOM节点
         this.options.parentNode.html(this.body); //节点放入容器中
+        this.initEvent(); //初始化dom事件
         this.showList(this.options.commentList); //显示评论
     };
     fn.initNode = function () {
@@ -32,6 +33,12 @@
         this.commentListUl = this.body.find(".cmt-list").eq(0); //评论列表容器
         this.noCommentAreaDiv = this.body.find(".no-cmt").eq(0); //无评论时容器
     };
+    fn.initEvent = function () {
+        this.commentListUl.on('click', this.reply());
+    };
+    fn.reply = function () {
+
+    };
     fn.showList = function () {
         let self = this;
         let commentHtml = "";
@@ -43,7 +50,8 @@
             cache : false,
             success : function(result){
                 //alert(result.data);
-                let commentList = result;
+                let commentList = JSON.parse(result[0]);
+                let replyList = JSON.parse(result[1]);
                 for(let i=0;i<commentList.length;i++){
                     //处理每条评论
                     let comment = commentList[i];
@@ -62,18 +70,20 @@
                                         '</div>' +
                                     '</div>' +
                                     '<div class="g-col-1 f-float-right">'+
-                                        '<sapn class="reply-button">回复</span>' +
+                                        '<span class="reply-button" message-id="'+comment.id+'">回复</span>' +
                                     '</div>' +
                                     '</li>'
                 }
                 self.noCommentAreaDiv.css("display","none");
-                self.commentListUl.html(commentHtml);
+                self.commentListUl.append(commentHtml);
             }
         });
     };
     //插件接口
-    $.fn.showMessages = function(options, callbacks) {
-        let message = new Message(this, options);
-        message.init();
-    };
+    $.fn.extend({
+        showMessages : function(options, callbacks) {
+            let message = new Message(this, options);
+            message.init();
+        },
+    });
 })(jQuery, window, document);

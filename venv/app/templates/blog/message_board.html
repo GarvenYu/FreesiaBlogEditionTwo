@@ -9,7 +9,6 @@
     <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
-    <link href="{{url_for('static', filename='css/verify.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block scripts %}
     {{ super() }}
@@ -17,7 +16,7 @@
     <script type="text/javascript" src="{{url_for('static', filename='js/show-all-messages.js')}}"></script>
 {% endblock %}
 {% block page_content %}
-<div class="container" style="padding-bottom: 60px; min-height: 100%; padding-top: 60px">
+<div style="padding-top: 60px">
         <div id="comment_body" class="comment-area">
           <div class="comment-area-block">
               <h3>留言板</h3>
@@ -36,6 +35,6 @@
             <div class="comment-area-block" id="show-all-messages">
             </div>
         </div>
-    </div>
+</div>
 {% endblock %}
 

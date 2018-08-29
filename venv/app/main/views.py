@@ -6,10 +6,10 @@ import json
 import logging
 from datetime import datetime
 from . import main
-from ..models import Category, Blog, Message, MessageEncoder
+from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder
 from .. import db
 import markdown
-from sqlalchemy import func
+from sqlalchemy import func, asc, desc
 from flask_login import login_required
 
 
@@ -80,16 +80,23 @@ def get_blog_by_kind():
 
 @main.route('/message', methods=['GET'])
 def show_message():
-    """加载页面"""
-    response = make_response(render_template('blog/message_board.html'))
+    """加载留言板页面"""
+    kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
+    response = make_response(render_template('blog/message_board.html', kindnumber=kind_number))
     return response
 
 
 @main.route('/getMessage', methods=['POST'])
 def get_message():
-    """加载页面"""
-    message_list = Message.query.filter_by(del_ind=0).order_by(Message.msg_time.desc()).all()
-    return json.dumps(message_list, cls=MessageEncoder)
+    """获取留言板数据"""
+    result_list = []  # 封装评论和回复
+    message_list = Message.query.filter_by(del_ind=0).order_by(desc(Message.msg_time)).all()
+    reply_list = ReplyComment.query.filter_by(del_ind=0).order_by(asc(ReplyComment.message_id),
+                                                                  desc(ReplyComment.reply_time)).all()
+    result_list.append(json.dumps(message_list, cls=MessageEncoder))
+    result_list.append(json.dumps(reply_list, cls=ReplyEncoder))
+    return json.dumps(result_list)
 
 
 @main.route('/saveMessage', methods=['POST'])
