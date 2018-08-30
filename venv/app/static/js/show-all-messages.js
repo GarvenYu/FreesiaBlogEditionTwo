@@ -36,9 +36,10 @@
     fn.initEvent = function () {
         this.commentListUl.on('click', this.reply.bind(this));
     };
-    fn.reply = function () {
+    fn.reply = function (event) {
         //点击回复触发的函数
-        $('.cmt-list-reply-all').toggle(800);
+        let showOrder = $(event.target).attr("show-order");
+        $('.cmt-list-reply-all').eq(showOrder).toggle(500);
     };
     fn.showList = function () {
         let self = this;
@@ -93,7 +94,7 @@
                                         '</div>' +
                                     '</div>' +
                                     '<div class="g-col-1 f-float-right">'+
-                                        '<span class="reply-button" message-id="'+comment.id+'">回复</span>' +
+                                        '<span class="reply-button" message-id="'+comment.id+'" show-order="'+i+'">回复</span>' +
                                     '</div>' +
                                     '</li>' + '<div class="cmt-list-reply-all">'+replyHtml+'</div>';
                 }

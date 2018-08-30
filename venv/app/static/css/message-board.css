@@ -122,4 +122,5 @@ img{
 }
 .cmt-list-reply-all{
     display: none;
+    float: left;
 }
