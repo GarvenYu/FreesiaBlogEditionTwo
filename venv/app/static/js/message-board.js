@@ -24,10 +24,11 @@ $(function(){
         $(this).css({"background-color":"#16ac3a","color":"#fff"});
       }
     );
-    $("textarea").focus(function(){
+    var textareaNode = $("textarea");
+    textareaNode.focus(function(){
       $(this).css({"border":"1px solid #87CEFF"});
     });
-    $("textarea").blur(function(){
+    textareaNode.blur(function(){
       $(this).css("border","1px solid #d9d9d9");
     });
     $('#show-all-messages').showMessages({

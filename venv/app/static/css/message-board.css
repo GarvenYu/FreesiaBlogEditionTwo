@@ -40,7 +40,20 @@
   line-height: 44px;
   text-align: center;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: none !important;
+  margin-top: 10px;
+}
+.submit-reply-btn {
+  color: #fff !important;
+  background-color: #16ac3a;
+  display: block;
+  width: 150px;
+  height: 44px;
+  border-radius: 5px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none !important;
   margin-top: 10px;
 }
 .no-cmt{
@@ -90,4 +103,23 @@
 .parent-comment{
 	margin: 15px 0;
 	line-height: 150%;
+}
+img{
+	width: 60px;
+	height :60px;
+}
+.cmt-list-reply-father{
+	float: left;
+	border-top: 1px dashed #DBDBDB;
+	width: 100%;
+}
+.cmt-list-reply-child{
+	margin-left: 60px;
+}
+.reply-content{
+	margin: 4px 0;
+	line-height: 150%;
+}
+.cmt-list-reply-all{
+    display: none;
 }

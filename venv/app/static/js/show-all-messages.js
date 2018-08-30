@@ -34,10 +34,11 @@
         this.noCommentAreaDiv = this.body.find(".no-cmt").eq(0); //无评论时容器
     };
     fn.initEvent = function () {
-        this.commentListUl.on('click', this.reply());
+        this.commentListUl.on('click', this.reply.bind(this));
     };
     fn.reply = function () {
-
+        //点击回复触发的函数
+        $('.cmt-list-reply-all').toggle(800);
     };
     fn.showList = function () {
         let self = this;
@@ -55,6 +56,29 @@
                     //处理每条评论
                     let comment = commentList[i];
                     self.options.commentList.push(comment);
+                    let replyHtml = "";
+                    for(let j=0; j<comment.replies.length;j++){
+                        //处理每条评论的回复
+                        replyHtml+='<div class="cmt-list-reply-father">' +
+                                        '<div class="cmt-list-reply-child">' +
+                                            '<span class="comment-name">'+comment.replies[j].user_name+'</span> ' +
+                                            '<span class="comment-time">'+comment.replies[j].reply_time+'</span>' +
+                                            '<div class="reply-content">' +
+                                                '<span>'+comment.replies[j].reply_content+'</span>'+
+                                            '</div>'+
+                                        '</div>' +
+                                    '</div>';
+                    }
+                    replyHtml += `
+                            <div class="comment-textarea">
+                              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
+                                <div class="input-group">
+                                  <span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>
+                                  <input type="text" class="form-control" placeholder="昵称" aria-describedby="basic-addon1" style="width: 20%">
+                                </div>
+                                <a class="submit-reply-btn">提交回复</a>                
+                            </div> 
+                    `;
                     commentHtml+='<li class="cmt-list-li">'+
                                     '<div class="head-img g-col-1">' +
                                         '<img src="../static/images/photo.png"/>' +
@@ -71,7 +95,7 @@
                                     '<div class="g-col-1 f-float-right">'+
                                         '<span class="reply-button" message-id="'+comment.id+'">回复</span>' +
                                     '</div>' +
-                                    '</li>'
+                                    '</li>' + '<div class="cmt-list-reply-all">'+replyHtml+'</div>';
                 }
                 self.noCommentAreaDiv.css("display","none");
                 self.commentListUl.append(commentHtml);
