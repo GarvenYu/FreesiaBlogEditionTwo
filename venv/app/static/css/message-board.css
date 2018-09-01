@@ -122,5 +122,6 @@ img{
 }
 .cmt-list-reply-all{
     display: none;
-    float: left;
+    overflow: hidden;
+    clear: both;
 }

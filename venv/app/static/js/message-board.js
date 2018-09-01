@@ -16,7 +16,10 @@ $(function(){
 		}
 		$("#div2").toggle(800);
     });
-    $(".submit-btn").hover(
+	let submitBtn = $('#submit-btn');
+	let commentText = $("#comment-content");
+	let commentUser = $("#comment-name");
+    submitBtn.hover(
       function(){
         $(this).css({"background-color":"#00962b","color":"#fff"});
       },
@@ -24,11 +27,31 @@ $(function(){
         $(this).css({"background-color":"#16ac3a","color":"#fff"});
       }
     );
-    var textareaNode = $("textarea");
-    textareaNode.focus(function(){
+    submitBtn.on("click", function () {
+        //点击提交评论按钮
+        let content = $.trim(commentText.val());
+        let name = $.trim(commentUser.val());
+        if(content === "" || name === ""){
+            alert("内容或姓名不能为空。");
+        }else{
+            $.post("/saveMessage",
+                {
+                    user_name: name,
+                    message_content : content
+                }, function (data, status) {
+                    alert(data);
+                    commentText.val("");
+                    commentUser.val("");
+                    //刷新评论
+                    $('#show-all-messages').showMessages({
+                    });
+                });
+        }
+    });
+    commentText.focus(function(){
       $(this).css({"border":"1px solid #87CEFF"});
     });
-    textareaNode.blur(function(){
+    commentText.blur(function(){
       $(this).css("border","1px solid #d9d9d9");
     });
     $('#show-all-messages').showMessages({

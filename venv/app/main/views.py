@@ -101,15 +101,8 @@ def get_message():
 
 @main.route('/saveMessage', methods=['POST'])
 def save_message():
-    """保存留言"""
-    message_data = json.loads(request.get_data())
-    if not message_data['user_name'] or not message_data['message_content']:
-        pass
-    else:
-        """存储留言"""
-        message = Message(message_data['user_name'], message_data['message_content'], datetime.now())
-        db.session.add(message)
-        db.session.commit()
-        """加载留言"""
-        message_list = Message.query.order_by(Message.msg_time.desc()).all()
-        return jsonify(messages=message_list)
+    """存储留言"""
+    message = Message(request.form.get('user_name'), request.form.get('message_content'), datetime.now())
+    db.session.add(message)
+    db.session.commit()
+    return jsonify(messages="success")

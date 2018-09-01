@@ -16,7 +16,6 @@
     fn.init = function () {
         this.initNode(); //初始化评论区DOM节点
         this.options.parentNode.html(this.body); //节点放入容器中
-        this.initEvent(); //初始化dom事件
         this.showList(this.options.commentList); //显示评论
     };
     fn.initNode = function () {
@@ -35,6 +34,12 @@
     };
     fn.initEvent = function () {
         this.commentListUl.on('click', this.reply.bind(this));
+        this.commentListUl.find(".reply-button").on("mouseenter", function () {
+           $(this).css({"background-color":"#16ac3a","color":"#fff"});
+        });
+        this.commentListUl.find(".reply-button").on("mouseleave", function () {
+           $(this).css({"background-color":"#fff","color":"#16ac3a"});
+        });
     };
     fn.reply = function (event) {
         //点击回复触发的函数
@@ -58,20 +63,19 @@
                     let comment = commentList[i];
                     self.options.commentList.push(comment);
                     let replyHtml = "";
-                    for(let j=0; j<comment.replies.length;j++){
-                        //处理每条评论的回复
+                    $.each(comment.replies, function (index, value) {
                         replyHtml+='<div class="cmt-list-reply-father">' +
                                         '<div class="cmt-list-reply-child">' +
-                                            '<span class="comment-name">'+comment.replies[j].user_name+'</span> ' +
-                                            '<span class="comment-time">'+comment.replies[j].reply_time+'</span>' +
+                                            '<span class="comment-name">'+value.user_name+'</span> ' +
+                                            '<span class="comment-time">'+value.reply_time+'</span>' +
                                             '<div class="reply-content">' +
-                                                '<span>'+comment.replies[j].reply_content+'</span>'+
+                                                '<span>'+value.reply_content+'</span>'+
                                             '</div>'+
                                         '</div>' +
                                     '</div>';
-                    }
+                    });
                     replyHtml += `
-                            <div class="comment-textarea">
+                            <div class="comment-textarea" style="float: left">
                               <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
                                 <div class="input-group">
                                   <span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>
@@ -100,6 +104,8 @@
                 }
                 self.noCommentAreaDiv.css("display","none");
                 self.commentListUl.append(commentHtml);
+                //注册事件
+                self.initEvent();
             }
         });
     };
