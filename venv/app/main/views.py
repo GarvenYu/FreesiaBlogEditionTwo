@@ -105,4 +105,14 @@ def save_message():
     message = Message(request.form.get('user_name'), request.form.get('message_content'), datetime.now())
     db.session.add(message)
     db.session.commit()
-    return jsonify(messages="success")
+    return jsonify(message="评论成功")
+
+
+@main.route('/saveReply', methods=['POST'])
+def save_reply():
+    """存储留言"""
+    reply = ReplyComment(request.form.get('user_name'), request.form.get('reply_content'), datetime.now(),
+                         request.form.get('message_id'))
+    db.session.add(reply)
+    db.session.commit()
+    return jsonify(message="回复成功")

@@ -39,7 +39,7 @@ $(function(){
                     user_name: name,
                     message_content : content
                 }, function (data, status) {
-                    alert(data);
+                    alert(data.message);
                     commentText.val("");
                     commentUser.val("");
                     //刷新评论

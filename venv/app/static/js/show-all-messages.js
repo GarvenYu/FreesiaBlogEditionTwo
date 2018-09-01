@@ -43,8 +43,35 @@
     };
     fn.reply = function (event) {
         //点击回复触发的函数
-        let showOrder = $(event.target).attr("show-order");
-        $('.cmt-list-reply-all').eq(showOrder).toggle(500);
+        let element = $(event.target);
+        if(element.hasClass("reply-button")){
+            //点击回复
+            let showOrder = element.attr("show-order");
+            $('.cmt-list-reply-all').eq(showOrder).toggle(500);
+        }else if(element.hasClass("submit-reply-btn")){
+            //点击提交回复
+            let messageId = element.attr("message-id"); // 评论Id
+            let replyUser = element.prev().find("input").val();
+            let replyContent = element.siblings("textarea").val();
+            if(replyUser === "" || replyContent === ""){
+                alert("内容或姓名不能为空。");
+            }else{
+                //存储回复
+                $.post("/saveReply",
+                {
+                    user_name: replyUser,
+                    reply_content : replyContent,
+                    message_id : messageId
+                }, function (data, status) {
+                    alert(data.message);
+                    element.prev().find("input").val("");
+                    element.siblings("textarea").val("");
+                    //刷新评论
+                    $('#show-all-messages').showMessages({
+                    });
+                });
+            }
+        }
     };
     fn.showList = function () {
         let self = this;
@@ -74,16 +101,17 @@
                                         '</div>' +
                                     '</div>';
                     });
-                    replyHtml += `
-                            <div class="comment-textarea" style="float: left">
-                              <textarea placeholder="Type here..." autofocus maxlength="200"></textarea>
-                                <div class="input-group">
-                                  <span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>
-                                  <input type="text" class="form-control" placeholder="昵称" aria-describedby="basic-addon1" style="width: 20%">
-                                </div>
-                                <a class="submit-reply-btn">提交回复</a>                
-                            </div> 
-                    `;
+                    replyHtml +=
+                            '<div class="comment-textarea" style="float: left">'+
+                              '<textarea placeholder="想回复什么？" maxlength="200" message-id="'+comment.id+'"></textarea>'+
+                                '<div class="input-group">'+
+                                  '<span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>'+
+                                  '<input type="text" class="form-control" placeholder="昵称" ' +
+                                        'aria-describedby="basic-addon1" style="width: 20%" message-id="'+comment.id+'">'+
+                                '</div>'+
+                                '<a class="submit-reply-btn" message-id="'+comment.id+'">提交回复</a>'+
+                            '</div> '
+                    ;
                     commentHtml+='<li class="cmt-list-li">'+
                                     '<div class="head-img g-col-1">' +
                                         '<img src="../static/images/photo.png"/>' +
