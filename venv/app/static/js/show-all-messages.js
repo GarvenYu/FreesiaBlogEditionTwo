@@ -101,6 +101,7 @@
                                         '</div>' +
                                     '</div>';
                     });
+                    //每条评论的回复
                     replyHtml +=
                             '<div class="comment-textarea" style="float: left">'+
                               '<textarea placeholder="想回复什么？" maxlength="200" message-id="'+comment.id+'"></textarea>'+
@@ -112,9 +113,11 @@
                                 '<a class="submit-reply-btn" message-id="'+comment.id+'">提交回复</a>'+
                             '</div> '
                     ;
+                    //每条评论
+                    let photoIndex = Math.floor(Math.random() * 5);
                     commentHtml+='<li class="cmt-list-li">'+
                                     '<div class="head-img g-col-1">' +
-                                        '<img src="../static/images/photo.png"/>' +
+                                        '<img src="../static/images/photo'+photoIndex+'.png"/>' +
                                     '</div>' +
                                     '<div class="content g-col-18">' +
                                         '<div class="f-clear">' +
