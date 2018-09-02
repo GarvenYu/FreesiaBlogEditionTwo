@@ -19,6 +19,23 @@ $(function(){
 	let submitBtn = $('#submit-btn');
 	let commentText = $("#comment-content");
 	let commentUser = $("#comment-name");
+	function filterHtmlTag(str, reg){
+	    return str ? str.replace(reg||/[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g, function (str, subStr) {
+            //str 匹配的字符串
+            // subStr 子表达式匹配的字符串
+            if(subStr){
+            return str;
+        }else{
+            return {
+                '<':'&lt;',
+                '&':'&amp;',
+                '"':'&quot;',
+                '>':'&gt;',
+                "'":'&#39;'
+            }[str];
+        }
+        }) : "";
+     }
     submitBtn.hover(
       function(){
         $(this).css({"background-color":"#00962b","color":"#fff"});
@@ -36,8 +53,8 @@ $(function(){
         }else{
             $.post("/saveMessage",
                 {
-                    user_name: name,
-                    message_content : content
+                    user_name: filterHtmlTag(name),
+                    message_content : filterHtmlTag(content)
                 }, function (data, status) {
                     alert(data.message);
                     commentText.val("");
@@ -55,5 +72,6 @@ $(function(){
       $(this).css("border","1px solid #d9d9d9");
     });
     $('#show-all-messages').showMessages({
+        filterHtmlTag : filterHtmlTag
     });
 });

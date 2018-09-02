@@ -43,6 +43,7 @@
     };
     fn.reply = function (event) {
         //点击回复触发的函数
+        let self = this;
         let element = $(event.target);
         if(element.hasClass("reply-button")){
             //点击回复
@@ -59,8 +60,8 @@
                 //存储回复
                 $.post("/saveReply",
                 {
-                    user_name: replyUser,
-                    reply_content : replyContent,
+                    user_name: self.options.filterHtmlTag(replyUser),
+                    reply_content : self.options.filterHtmlTag(replyContent),
                     message_id : messageId
                 }, function (data, status) {
                     alert(data.message);
@@ -107,7 +108,7 @@
                               '<textarea placeholder="想回复什么？" maxlength="200" message-id="'+comment.id+'"></textarea>'+
                                 '<div class="input-group">'+
                                   '<span class="input-group-addon" id="basic-addon1"><i class="far fa-user"></i></span>'+
-                                  '<input type="text" class="form-control" placeholder="昵称" ' +
+                                  '<input type="text" class="form-control" placeholder="昵称" maxlength="10"' +
                                         'aria-describedby="basic-addon1" style="width: 20%" message-id="'+comment.id+'">'+
                                 '</div>'+
                                 '<a class="submit-reply-btn" message-id="'+comment.id+'">提交回复</a>'+
