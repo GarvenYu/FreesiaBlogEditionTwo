@@ -8,6 +8,7 @@
     <link href="{{url_for('static', filename='css/base.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block scripts %}
     {{ super() }}
@@ -15,6 +16,7 @@
 {% block page_content %}
 <div style="padding-top:60px">
 {{ blog.content | safe }}
+<a href="#top" class="click-to-top" title="返回顶部"></a>
 </div>
 {% endblock %}
 
