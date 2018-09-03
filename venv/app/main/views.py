@@ -24,10 +24,12 @@ def index():
         page, per_page=current_app.config['BLOG_PER_PAGE'], error_out=False)
     items = pagination.items
     kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
-        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()  # 侧边栏博客分类
     side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
+    recent_comments = Message.query.filter_by(del_ind=0) \
+        .order_by(Message.msg_time.desc()).limit(5).offset(0).all()  # 侧边栏最近留言
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
-                           pagination=pagination, kindnumber=kind_number, mainPage=True)
+                           pagination=pagination, kindnumber=kind_number, recentComments=recent_comments, mainPage=True)
 
 
 @main.route('/write', methods=['GET', 'POST'])

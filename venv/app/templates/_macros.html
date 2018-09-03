@@ -48,14 +48,14 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro render_aside(sideitems, kindnumber, endpoint) %}
-    <aside class="aside">
+{% macro render_aside(sideitems, kindnumber, recentComments, endpoint) %}
+    <aside class="aside" style="clear: both">
         <ul class="nav nav-tabs" role="tablist" id="myTabs">
           <li role="presentation" class="active"><a href="#recentArticle" aria-controls="recentArticle" role="tab" data-
             toggle="tab">最近文章</a></li>
           <li role="presentation"><a href="#blogKind" aria-controls="blogKind" role="tab" data-
             toggle="tab">博客分类</a></li>
-          <li role="presentation"><a href="#test" aria-controls="test" role="tab" data-
+          <li role="presentation"><a href="#recentComments" aria-controls="test" role="tab" data-
             toggle="tab">最近留言</a></li>
         </ul>
         <div class="tab-content">
@@ -71,7 +71,16 @@
               <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
             {% endfor %}
           </div>
-          <div role="tabpanel" class="tab-pane fade" id="test">暂未开放</div>
+          <div role="tabpanel" class="tab-pane fade" id="recentComments">
+            {% if recentComments %}
+                {% for item in recentComments %}
+                  <p>@{{ item.user_name| safe }}： {{ item.msg_content | safe }}</p>
+              {% endfor %}
+             {% else %}
+                暂无留言
+            {% endif %}
+
+          </div>
         </div>
       </aside>
 {% endmacro %}
