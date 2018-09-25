@@ -12,7 +12,7 @@ import markdown
 from sqlalchemy import func, asc, desc
 from flask_login import login_required
 
-
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
     
@@ -117,4 +117,14 @@ def save_reply():
                          request.form.get('message_id'))
     db.session.add(reply)
     db.session.commit()
+    return jsonify(message="回复成功")
+
+
+@main.route('/savePicture', methods=['POST'])
+def save_picture():
+    """存储图片"""
+    logger.info(request.content_length)
+    logger.info(request.content_type)
+    with open('photo.png', mode='ab+') as file:
+        file.write(request.get_data())
     return jsonify(message="回复成功")
