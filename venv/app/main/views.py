@@ -125,6 +125,7 @@ def save_picture():
     """存储图片"""
     logger.info(request.content_length)
     logger.info(request.content_type)
-    with open('photo.png', mode='ab+') as file:
-        file.write(request.get_data())
+    # request.files['file'].filename
+    with open('photo.png', mode='wb+', buffering=1024) as file:
+        file.write(request.files['file'].read())
     return jsonify(message="回复成功")

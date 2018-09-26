@@ -47,7 +47,8 @@ $(document).ready(function() {
     });
     //上传图片
     $("#upload").on("click", function(){
-        let formData = new FormData($('#picturefile')[0].files[0]);
+        var formData = new FormData();
+        formData.append('file', $('input[name=file]')[0].files[0]);
         $.ajax({
             type: 'post',
             url: "savePicture",
@@ -143,8 +144,8 @@ $(document).ready(function() {
     <div class="col-sm-offset-2 col-sm-1">
       <button type="button" class="btn btn-default" id="submit">提交</button>
     </div>
-      <form id="uploadForm" enctype="multipart/form-data">
-          <input type='file' name='picturefile' id='picturefile' />
+      <form id="uploadForm" enctype="multipart/form-data" method="post">
+          <input type='file' name='file' id='file' />
       </form>
       <button type="button" class="btn btn-default" id="upload">上传</button>
   </div>
