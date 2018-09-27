@@ -4,6 +4,7 @@
 from flask import render_template, request, jsonify, current_app, redirect, url_for, make_response
 import json
 import logging
+import socket
 from datetime import datetime
 from . import main
 from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder
@@ -15,7 +16,10 @@ from flask_login import login_required
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-    
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
 @main.route('/mainPage', methods=['GET'])
 def index():
     """获取首页数据"""
@@ -120,12 +124,21 @@ def save_reply():
     return jsonify(message="回复成功")
 
 
+def check_extension(file_name):
+    """检查文件扩展名"""
+    return '.' in file_name and file_name.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @main.route('/savePicture', methods=['POST'])
 def save_picture():
     """存储图片"""
-    logger.info(request.content_length)
-    logger.info(request.content_type)
-    # request.files['file'].filename
-    with open('photo.png', mode='wb+', buffering=1024) as file:
-        file.write(request.files['file'].read())
-    return jsonify(message="回复成功")
+    if request.method == 'POST':
+        file = request.files['file']
+        if check_extension(file.filename):
+            client_socket = socket.socket()
+            client_socket.connect(('112.74.167.157', 8001))
+            client_socket.send(file.read())
+            picture_url = client_socket.recv(1024)
+            if picture_url:
+                return jsonify(url=picture_url.decode('UTF-8'))
+            logger.info("no data receive.")
