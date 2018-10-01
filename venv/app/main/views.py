@@ -138,8 +138,8 @@ def save_picture():
             client_socket = socket.socket()
             client_socket.connect(('112.74.167.157', 8001))
             file_size = request.content_length
-            client_socket.send(str(file_size).encode('utf-8'))
-            logger.info("发送文件长度.. %d" % request.content_length)
+            # client_socket.send(str(file_size).encode('utf-8'))
+            # logger.info("发送文件长度.. %d" % request.content_length)
             send_size = 0
             while send_size <= request.content_length:
                 if file_size - send_size > 4096:
@@ -156,3 +156,4 @@ def save_picture():
                 client_socket.close()
                 return jsonify(url=picture_url.decode('UTF-8'))
             logger.info("未接收到返回数据...")
+            return jsonify(url='')
