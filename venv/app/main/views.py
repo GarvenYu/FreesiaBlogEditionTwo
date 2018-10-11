@@ -143,13 +143,14 @@ def save_picture():
             send_size = 0
             while send_size <= request.content_length:
                 if file_size - send_size > 4096:
-                    logger.info("发送文件.. %d" % send_size)
+                    # logger.info("发送文件.. %d" % send_size)
                     client_socket.send(file.read(4096))
                 else:
-                    logger.info("发送文件.. %d" % send_size)
+                    # logger.info("发送文件.. %d" % send_size)
                     client_socket.send(file.read(file_size-send_size))
                 send_size += 4096
-            client_socket.send("finish".encode('utf-8'))
+            logger.info("发送文件.. %d" % send_size)
+            # client_socket.send("finish".encode('utf-8'))
             picture_url = client_socket.recv(4096)
             logger.info("接收服务器返回地址.. %s" % picture_url.decode('UTF-8'))
             if picture_url:
