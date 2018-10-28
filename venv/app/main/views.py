@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, jsonify, current_app, redirect, url_for, make_response
+from flask import render_template, request, jsonify, current_app, g, redirect, url_for, make_response
 import json
 import logging
 import socket
 from datetime import datetime
 from . import main
-from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder
+from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
 from .. import db
 import markdown
 from sqlalchemy import func, asc, desc
-from flask_login import login_required
+from app.utils import check_auth
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -37,13 +37,19 @@ def index():
 
 
 @main.route('/write', methods=['GET', 'POST'])
-@login_required
+@check_auth(request)
 def write_blog():
     """编辑博客"""
-    categories = Category.query.all()
-    option_list = [dict(id=category.id, name=category.name)
-                   for category in categories]
-    return render_template('blog/write_blog.html', option_list=option_list)
+    # 已登录
+    if g.user:
+        # 管理员权限
+        if g.have_auth:
+            categories = Category.query.all()
+            option_list = [dict(id=category.id, name=category.name)
+                           for category in categories]
+            return render_template('blog/write_blog.html', option_list=option_list)
+    # 未登录
+    return redirect(url_for("auth.login"))
 
 
 @main.route('/saveBlog', methods=['POST'])
@@ -157,4 +163,4 @@ def save_picture():
                 client_socket.close()
                 return jsonify(url=picture_url.decode('UTF-8'))
             logger.info("未接收到返回数据...")
-            return jsonify(url='')
+        return jsonify(url='未接收到返回数据...')

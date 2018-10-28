@@ -4,15 +4,17 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+# from flask_login import LoginManager
 import configparser
 import os
 from datetime import timedelta
+import redis
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-login_manager = LoginManager()
+# login_manager = LoginManager()
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
+conn = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 
 def create_app():
@@ -31,11 +33,11 @@ def create_app():
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_time'] = format_time
     # 配置flask_login
-    login_manager.login_view = "auth.login"
-    login_manager.session_protection = "strong"
-    login_manager.login_message = "请先登录"
+    # login_manager.login_view = "auth.login"
+    # login_manager.session_protection = "strong"
+    # login_manager.login_message = "请先登录"
     # 注册到flask中
-    login_manager.init_app(app)
+    # login_manager.init_app(app)
     bootstrap.init_app(app)
     db.init_app(app)
 

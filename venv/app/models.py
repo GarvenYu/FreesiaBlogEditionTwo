@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from app import db, login_manager
+from app import db
 from flask_login import UserMixin
 import json
 
@@ -40,11 +40,12 @@ class Category(db.Model):
         return '<Category %r>' % self.name
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     """用户model"""
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    role_id = db.Column(db.Integer, db.ForeignKey('role_inf.id'))
 
     def __init__(self, email=None, password_hash=None):
         self.email = email
@@ -52,6 +53,27 @@ class User(db.Model, UserMixin):
 
     def verify_password(self, password):
         return self.password_hash == password
+
+    @property
+    def role(self):
+        return self.__role_cd
+
+    @role.setter
+    def role(self, value):
+        self.__role_cd = value
+
+
+class Role(db.Model):
+    """用户角色"""
+    __tablename__ = "role_inf"
+    id = db.Column(db.Integer, primary_key=True)
+    role_cd = db.Column(db.String(50), unique=True)
+    role_desc = db.Column(db.String(128))
+    users = db.relationship("User", backref="users")
+
+    def __init__(self, role_cd=None, role_desc=None):
+        self.role_cd = role_cd
+        self.role_desc = role_desc
 
 
 class Message(db.Model):
@@ -115,8 +137,3 @@ class ReplyEncoder(json.JSONEncoder):
                         'message_id': obj.message_id
                     }
         return json.JSONEncoder.default(self, obj)
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
