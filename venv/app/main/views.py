@@ -41,6 +41,7 @@ def index():
 def write_blog():
     """编辑博客"""
     # 已登录
+    # user: type(str) "{...:...}"
     if g.user:
         # 管理员权限
         if g.have_auth:

@@ -6,6 +6,7 @@ from flask import render_template, request, redirect, url_for, flash, make_respo
 from flask_login import login_user
 from app.models import User, Role
 from app.utils import add_token
+import json
 
 
 @auth.route('/login', methods=['GET'])
@@ -23,14 +24,18 @@ def auth_login():
     user = User.query.filter_by(email=email).first()
     # 获取权限
     role = Role.query.filter_by(id=user.role_id).first().role_cd
-    user.role = role
     if user and user.verify_password(password):
         # 存储用户信息
-        token = add_token(user)
+        user_info = {
+            "id": user.id,
+            "email": user.email,
+            "role": role
+        }
+        token = add_token(user_info)
         # 发送cookie
-        resp = make_response()
-        resp.set_cookie('token', token)
-        return redirect(request.args.get('next') or url_for('main.index'))
+        resp = make_response(redirect(request.args.get('next') or url_for('main.index')))
+        resp.set_cookie('token', value=token, max_age=86400)
+        return resp
     else:
         flash("账号或密码错误!")
         return redirect(url_for('auth.login'))
