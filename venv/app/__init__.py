@@ -8,13 +8,12 @@ from flask_sqlalchemy import SQLAlchemy
 import configparser
 import os
 from datetime import timedelta
-import redis
+
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 # login_manager = LoginManager()
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
-conn = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 
 def create_app():
