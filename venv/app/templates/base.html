@@ -41,7 +41,11 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {#<li><a href="#"><i class="fas fa-user-plus fa-lg"></i> 注册</a></li>#}
-            <li><a href="{{ url_for("auth.login") }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
+              {% if user %}
+                  <li><span style="font-size: 16px;color: #9d9d9d; padding: 15px 15px; float: right">你好~{{ user.email }}</span></li>
+              {% else %}
+                  <li><a href="{{ url_for("auth.login") }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
+              {% endif %}
         </ul>
         </div>
       </div>

@@ -11,11 +11,11 @@ from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, Repl
 from .. import db
 import markdown
 from sqlalchemy import func, asc, desc
-from app.utils import check_auth
+from app.utils import check_auth, init_redis, load_user
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
-
+conn = init_redis()
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -27,13 +27,20 @@ def index():
     pagination = Blog.query.order_by(Blog.timestamp.desc()).paginate(
         page, per_page=current_app.config['BLOG_PER_PAGE'], error_out=False)
     items = pagination.items
+    # 侧边栏博客分类
     kind_number = db.session.query(Category.name, Category.id, func.count(Blog.category_id)) \
-        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()  # 侧边栏博客分类
-    side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
+        .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
+    # 侧边栏最近文章
+    side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()
+    # 侧边栏最近留言
     recent_comments = Message.query.filter_by(del_ind=0) \
-        .order_by(Message.msg_time.desc()).limit(5).offset(0).all()  # 侧边栏最近留言
+        .order_by(Message.msg_time.desc()).limit(5).offset(0).all()
+    # 加载用户
+    token = request.cookies.get('token')
+    user = json.loads(load_user(token, conn)) if token else None
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
-                           pagination=pagination, kindnumber=kind_number, recentComments=recent_comments, mainPage=True)
+                           pagination=pagination, kindnumber=kind_number,
+                           recentComments=recent_comments, mainPage=True, user=user)
 
 
 @main.route('/write', methods=['GET', 'POST'])

@@ -16,7 +16,7 @@ def init_redis():
     return conn
 
 
-def check_token(token, conn):
+def load_user(token, conn):
     """根据token加载用户"""
     return conn.hget(TOKEN_KEY, token)
 
@@ -37,7 +37,7 @@ def check_auth(request):
         def call(*args, **kwargs):
             # 获取客户端token
             token = request.cookies.get('token')
-            user_info = check_token(token, conn)
+            user_info = load_user(token, conn)
             g.user = user_info
             if not user_info:
                 g.have_auth = False
