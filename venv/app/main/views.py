@@ -6,9 +6,9 @@ import json
 import logging
 import socket
 from datetime import datetime
-from . import main
-from ..models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
-from .. import db
+from app.main import main
+from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
+from app import db
 import markdown
 from sqlalchemy import func, asc, desc
 from app.utils import check_auth, init_redis, load_user
@@ -20,7 +20,7 @@ conn = init_redis()
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
-@main.route('/mainPage', methods=['GET'])
+@main.route('/', methods=['GET'])
 def index():
     """获取首页数据"""
     page = request.args.get('page', 1, type=int)

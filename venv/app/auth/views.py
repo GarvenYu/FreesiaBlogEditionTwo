@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from . import auth
+from app.auth import auth
 from flask import render_template, request, redirect, url_for, flash, make_response
-from flask_login import login_user
 from app.models import User, Role
 from app.utils import add_token,  init_redis
 
 conn = init_redis()
+
 
 @auth.route('/login', methods=['GET'])
 def login():
