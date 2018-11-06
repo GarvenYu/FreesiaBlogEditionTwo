@@ -4,9 +4,7 @@
 from app.auth import auth
 from flask import render_template, request, redirect, url_for, flash, make_response
 from app.models import User, Role
-from app.utils import add_token,  init_redis
-
-conn = init_redis()
+from app.utils import add_token
 
 
 @auth.route('/login', methods=['GET'])
@@ -35,7 +33,7 @@ def auth_login():
                 "role": role
             }
             # add token and user_info to redis hash
-            token = add_token(user_info, conn)
+            token = add_token(user_info)
             # send cookie to client
             resp = make_response(redirect(request.args.get('next') or url_for('main.index')))
             resp.set_cookie('token', value=token, max_age=86400)

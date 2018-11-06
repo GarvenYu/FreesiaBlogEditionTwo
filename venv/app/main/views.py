@@ -11,11 +11,10 @@ from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, Re
 from app import db
 import markdown
 from sqlalchemy import func, asc, desc
-from app.utils import check_auth, init_redis, load_user
+from app.utils import check_auth, load_user
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
-conn = init_redis()
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -37,7 +36,7 @@ def index():
         .order_by(Message.msg_time.desc()).limit(5).offset(0).all()
     # 加载用户
     token = request.cookies.get('token')
-    user = json.loads(load_user(token, conn)) if token else None
+    user = json.loads(load_user(token)) if token else None
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
                            pagination=pagination, kindnumber=kind_number,
                            recentComments=recent_comments, mainPage=True, user=user)
