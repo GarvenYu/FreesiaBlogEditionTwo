@@ -127,7 +127,7 @@ img{
 }
 .click-to-top{
 	border-radius: 50%;
-	background-image: url("../images/top.png");
+	background-image: url("../../images/top.png");
 	position: fixed;
 	z-index: 100;
 	right: 5px;

@@ -5,19 +5,18 @@
     {{ super() }}
 {% endblock %}
 {% block styles %}
-	<link rel="icon" href="/static/images/cat.png" type="image/x-icon">
-    <link href="{{url_for('static', filename='css/base.css')}}" rel="stylesheet" />
-    <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
+    {{ super() }}
     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet" />
-    <link href="{{url_for('static', filename='css/message-board.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/blogdetail/blog-detail.css')}}" rel="stylesheet" />
 {% endblock %}
 {% block scripts %}
     {{ super() }}
 {% endblock %}
 {% block page_content %}
-<div style="padding-top:60px">
-{{ blog.content | safe }}
-<a href="#top" class="click-to-top" title="返回顶部"></a>
-</div>
+    <div class="center-container">
+        <div style="padding-top:60px" class="blog-content">
+            {{ blog.content | safe }}
+        </div>
+    </div>
 {% endblock %}
 

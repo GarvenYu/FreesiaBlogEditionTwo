@@ -1,0 +1,14 @@
+.center-container{
+    min-height: 100%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1170px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0 3px 3px rgba(0,0,0,.2);
+}
+
+.blog-content{
+    font-size: 18px;
+}

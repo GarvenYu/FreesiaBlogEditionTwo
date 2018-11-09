@@ -4,15 +4,12 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import LoginManager
 import configparser
 import os
-from datetime import timedelta
 
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-# login_manager = LoginManager()
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -26,17 +23,10 @@ def create_app():
     # 配置应用
     app.config['SECRET_KEY'] = config['app']['SECRET_KEY']
     app.config['BLOG_PER_PAGE'] = config['app'].getint('BLOG_PER_PAGE')
-    # 配置flask_login
-    app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=120)
     # 注册JinJa2过滤器
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_time'] = format_time
-    # 配置flask_login
-    # login_manager.login_view = "auth.login"
-    # login_manager.session_protection = "strong"
-    # login_manager.login_message = "请先登录"
-    # 注册到flask中
-    # login_manager.init_app(app)
+
     bootstrap.init_app(app)
     db.init_app(app)
 

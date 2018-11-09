@@ -73,7 +73,7 @@ def save_blog():
 
 
 @main.route('/detail/<int:id>', methods=['GET'])
-def check_blog(id):
+def check_blog(id: int):
     """获取博客详情"""
     blog = Blog.query.filter_by(id=id).first()
     blog.content = markdown.markdown(blog.content)
@@ -137,8 +137,9 @@ def save_reply():
     return jsonify(message="回复成功")
 
 
-def check_extension(file_name):
-    """检查文件扩展名"""
+def check_extension(file_name: str) -> bool:
+    """检查文件扩展名
+    """
     return '.' in file_name and file_name.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
