@@ -79,7 +79,7 @@
         let commentHtml = "";
         //构造异步请求
         $.ajax({
-            type : 'post',
+            type : 'get',
             url : 'getMessage',
             dataType : 'json',
             cache : false,

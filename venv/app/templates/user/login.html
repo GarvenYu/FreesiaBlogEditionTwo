@@ -27,7 +27,7 @@
                 <strong>{{ message }}</strong>
           </div>
         {% endfor %}
-      <form class="form-signin" action="{{ url_for(".auth_login") }}" method="post">
+      <form class="form-signin" action="{{ url_for('auth.auth_login') }}" method="post">
         <h2 class="form-signin-heading">Freesia博客登录</h2>
         <label for="inputEmail" class="sr-only">邮箱</label>
         <input type="email" name="inputEmail" class="form-control" placeholder="邮箱地址" required autofocus>
@@ -38,6 +38,7 @@
             <input type="checkbox" value="remember" name="remember_me"> 记住我
           </label>
         </div>
+          <input type="hidden" name="nexturl" value="{{ nexturl }}">
         <input class="btn btn-lg btn-primary btn-block" type="submit" value="登录">
       </form>
 

@@ -35,7 +35,7 @@ $(function(){
             }[str];
         }
         }) : "";
-     }
+     };
     submitBtn.hover(
       function(){
         $(this).css({"background-color":"#00962b","color":"#fff"});

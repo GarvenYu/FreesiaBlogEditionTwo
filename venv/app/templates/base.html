@@ -34,11 +34,11 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                  aria-haspopup="true" aria-expanded="false" style="font-size: 18px">分类<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                {{ macros.render_blog_kind(kindnumber, '.get_blog_by_kind') }}
+                {{ macros.render_blog_kind(g.kindnumber, '.get_blog_by_kind') }}
               </ul>
             </li>
             <li><a href="{{ url_for('.show_message') }}" style="font-size: 18px">留言板</a></li>
-              {% if user and user.role == 'admin' %}
+              {% if g.user and g.user.role == 'admin' %}
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false" style="font-size: 18px">管理员功能<span class="caret"></span></a>
@@ -50,8 +50,8 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {#<li><a href="#"><i class="fas fa-user-plus fa-lg"></i> 注册</a></li>#}
-              {% if user %}
-                  <li><span style="font-size: 16px;color: #9d9d9d; padding: 15px 15px; float: right">你好~{{ user.email }}</span></li>
+              {% if g.user %}
+                  <li><span style="font-size: 16px;color: #9d9d9d; padding: 15px 15px; float: right">你好~{{ g.user.email }}</span></li>
               {% else %}
                   <li><a href="{{ url_for("auth.login") }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
               {% endif %}

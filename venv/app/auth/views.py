@@ -10,7 +10,8 @@ from app.utils import add_token
 @auth.route('/login', methods=['GET'])
 def login():
     """登录"""
-    return render_template('user/login.html')
+    nexturl = request.args.get('next', url_for('main.index'))
+    return render_template('user/login.html', nexturl=nexturl)
 
 
 @auth.route('/authLogin', methods=['POST'])
@@ -19,10 +20,11 @@ def auth_login():
     email = request.form.get('inputEmail', None)
     password = request.form.get('inputPassword', None)
     remember = True if request.form.get('remember_me', None) else False
-    user = User.query.filter_by(email=email).first()
-    # 获取权限
-    role = Role.query.filter_by(id=user.role_id).first().role_cd
+    nexturl = request.form.get('nexturl')  # 默认主页
+    user = User.query.filter_by(email=email).first()  # 加载用户
     if user and user.verify_password(password):
+        # 获取权限
+        role = Role.query.filter_by(id=user.role_id).first().role_cd
         # 是否已有token
         token = request.cookies.get('token')
         if not token:
@@ -35,12 +37,12 @@ def auth_login():
             # add token and user_info to redis hash
             token = add_token(user_info)
             # send cookie to client
-            resp = make_response(redirect(request.args.get('next') or url_for('main.index')))
+            resp = make_response(redirect(nexturl))
             resp.set_cookie('token', value=token, max_age=86400)
             return resp
         else:
             # 视为已登录
-            pass
+            return redirect(nexturl)
     else:
         flash("账号或密码错误!")
         return redirect(url_for('auth.login'))
