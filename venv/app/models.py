@@ -108,6 +108,22 @@ class ReplyComment(db.Model):
         self.message_id = message_id
 
 
+class SystemFunction(db.Model):
+    """系统功能
+    :author ykbpro@whut.edu.cn
+    :time 2018-11-13 23:05:16
+    """
+    __tablename__ = "sys_fun_bas_inf"
+    id = db.Column(db.Integer, primary_key=True)
+    fun_cd = db.Column(db.String(20), unique=True)
+    fun_desc = db.Column(db.String(128))
+    crt_tm = db.Column(db.DateTime)
+    del_ind = db.Column(db.SmallInteger, default=0)
+
+    def __init__(self):
+        pass
+
+
 class MessageEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Message):

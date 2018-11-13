@@ -33,7 +33,7 @@ def index():
     recent_comments = Message.query.filter_by(del_ind=0) \
         .order_by(Message.msg_time.desc()).limit(5).offset(0).all()
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
-                           pagination=pagination, recentComments=recent_comments, mainPage=True, g=g)
+                           pagination=pagination, recentComments=recent_comments, mainPage=True)
 
 
 @main.route('/write', methods=['GET'])
@@ -48,7 +48,7 @@ def write_blog():
             categories = Category.query.all()
             option_list = [dict(id=category.id, name=category.name)
                            for category in categories]
-            return render_template('blog/write_blog.html', option_list=option_list, g=g)
+            return render_template('blog/write_blog.html', option_list=option_list)
         else:
             # 游客权限
             return redirect(url_for('main.index'))
@@ -75,7 +75,7 @@ def check_blog(id: int):
     """获取博客详情"""
     blog = Blog.query.filter_by(id=id).first()
     blog.content = markdown.markdown(blog.content)
-    return render_template('blog/blog_detail.html', blog=blog, g=g)
+    return render_template('blog/blog_detail.html', blog=blog)
 
 
 @main.route('/blogkind', methods=['GET'])
@@ -89,14 +89,14 @@ def get_blog_by_kind():
     items = pagination.items
     side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
-                           pagination=pagination, category_id=category_id, mainPage=False, g=g)
+                           pagination=pagination, category_id=category_id, mainPage=False)
 
 
 @main.route('/message', methods=['GET'])
 @load_bas_info(request)
 def show_message():
     """加载留言板页面"""
-    response = make_response(render_template('blog/message_board.html', g=g))
+    response = make_response(render_template('blog/message_board.html'))
     return response
 
 
