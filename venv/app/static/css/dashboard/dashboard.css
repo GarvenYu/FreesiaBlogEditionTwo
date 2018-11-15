@@ -58,12 +58,14 @@ body {
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
+  color: #333;
 }
 .nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
+.nav-sidebar > li > a:hover{
+  color: #007bff;
+}
 .nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
+  /*color: #007bff;*/
 }
 
 
@@ -84,7 +86,9 @@ body {
   margin-top: 0;
 }
 
-
+.icon-feather{
+  margin-right: 4px;
+}
 /*
  * Placeholder dashboard ideas
  */

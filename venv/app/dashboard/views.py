@@ -8,11 +8,12 @@
 from app.dashboard import manage
 from app.utils import load_bas_info
 from flask import render_template, request, redirect, url_for, g
+from app.models import Blog
 
 
 @manage.route('/dashboard', methods=['GET'])
 @load_bas_info(request)
-def showdashboard():
+def show_dash_board():
     """进入后台管理
     """
     # 已登录
@@ -20,9 +21,17 @@ def showdashboard():
         # 管理员权限
         g.have_auth = True if g.user.get('role') == "admin" else False
         if g.have_auth:
-            return render_template('blog/dashboard.html')
+            blogs = Blog.query.order_by(Blog.timestamp.desc()).all()
+            return render_template('blog/dashboard.html', blogs=blogs)
         else:
             # 游客权限
             return redirect(url_for('main.index'))
     # 未登录
     return redirect(url_for('auth.login', next=request.path))
+
+
+@manage.route('/deleteblog', methods=['POST'])
+def delete_blog():
+    blog_id = request.form.get('blog_id')
+    # 删除
+    pass
