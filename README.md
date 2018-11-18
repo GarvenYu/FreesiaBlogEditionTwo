@@ -23,8 +23,17 @@
 - 留言
 - 登录(目前暂未开发注册)
 
+---
+
 ### v1.1
 
 **Socket实现客户端图片上传，方便博客引用图片URL**
 
 [demo传送门](https://github.com/GarvenYu/py-socket-ftp)
+
+---
+
+### v1.2
+
+- 使用Redis进行用户会话管理
+- 部分功能增加权限控制
