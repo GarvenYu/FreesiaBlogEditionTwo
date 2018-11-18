@@ -6,7 +6,8 @@ import json
 
 
 class Blog(db.Model):
-    """博客model"""
+    """博客model
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     summary = db.Column(db.Text)
@@ -27,7 +28,8 @@ class Blog(db.Model):
 
 
 class Category(db.Model):
-    """博客种类model"""
+    """博客种类model
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
 
@@ -40,7 +42,8 @@ class Category(db.Model):
 
 
 class User(db.Model):
-    """用户model"""
+    """用户model
+    """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, index=True)
     password_hash = db.Column(db.String(128))
@@ -53,22 +56,15 @@ class User(db.Model):
     def verify_password(self, password):
         return self.password_hash == password
 
-    @property
-    def role(self):
-        return self.__role_cd
-
-    @role.setter
-    def role(self, value):
-        self.__role_cd = value
-
 
 class Role(db.Model):
-    """用户角色"""
+    """用户角色
+    """
     __tablename__ = "role_inf"
     id = db.Column(db.Integer, primary_key=True)
     role_cd = db.Column(db.String(50), unique=True)
     role_desc = db.Column(db.String(128))
-    users = db.relationship("User", backref="users")
+    users = db.relationship("User", backref="role")
 
     def __init__(self, role_cd=None, role_desc=None):
         self.role_cd = role_cd
@@ -76,7 +72,8 @@ class Role(db.Model):
 
 
 class Message(db.Model):
-    """留言model"""
+    """留言model
+    """
     __tablename__ = "bbs_bas_inf"
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(50))
@@ -92,7 +89,8 @@ class Message(db.Model):
 
 
 class ReplyComment(db.Model):
-    """回复model"""
+    """回复model
+    """
     __tablename__ = "reply_bas_inf"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(50))

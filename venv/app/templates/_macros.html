@@ -132,10 +132,12 @@
                       <td>{{ blog.timestamp }}</td>
                       <td>{{ blog.category.name }}</td>
                         <td>
-                            <button type="submit" class="btn btn-info btn-xs">更新</button>
-                            <form action="{{ url_for('manage.delete_blog') }}" method="post">
-                                <button type="submit" class="btn btn-danger btn-xs">删除</button>
-                                <input type="hidden" name="blog_id" value="{{ blog.id }}">
+                            <form action="{{ url_for('manage.update_blog') }}" method="post" style="display: inline">
+                                <input type="hidden" value="{{ blog.id }}" name="id">
+                                <button type="submit" class="btn btn-info btn-sm">更新</button>
+                            </form>
+                            <form action="{{ url_for('manage.delete_blog', id=blog.id) }}" method="post" style="display: inline">
+                                <button type="submit" class="btn btn-danger btn-sm">删除</button>
                             </form>
                         </td>
                     </tr>

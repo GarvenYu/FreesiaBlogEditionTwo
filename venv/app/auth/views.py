@@ -23,8 +23,6 @@ def auth_login():
     nexturl = request.form.get('nexturl')  # 默认主页
     user = User.query.filter_by(email=email).first()  # 加载用户
     if user and user.verify_password(password):
-        # 获取权限
-        role = Role.query.filter_by(id=user.role_id).first().role_cd
         # 是否已有token
         token = request.cookies.get('token')
         if not token:
@@ -32,7 +30,7 @@ def auth_login():
             user_info = {
                 "id": user.id,
                 "email": user.email,
-                "role": role
+                "role": user.role.role_cd
             }
             # add token and user_info to redis hash
             token = add_token(user_info)

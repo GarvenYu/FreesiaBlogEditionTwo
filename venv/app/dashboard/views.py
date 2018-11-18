@@ -8,7 +8,8 @@
 from app.dashboard import manage
 from app.utils import load_bas_info
 from flask import render_template, request, redirect, url_for, g
-from app.models import Blog
+from app.models import Blog, Category
+from app import db
 
 
 @manage.route('/dashboard', methods=['GET'])
@@ -32,6 +33,24 @@ def show_dash_board():
 
 @manage.route('/deleteblog', methods=['POST'])
 def delete_blog():
-    blog_id = request.form.get('blog_id')
-    # 删除
-    pass
+    """删除博客
+    """
+    blog_id = request.args.get('id')
+    blog = Blog.query.get(blog_id)
+    if blog:
+        db.session.delete(blog)
+        db.session.commit()
+    return redirect(url_for('manage.show_dash_board'))
+
+
+@manage.route('/updateblog', methods=['POST'])
+@load_bas_info(request)
+def update_blog():
+    """更新博客
+    """
+    blog = Blog.query.get(request.form.get('id'))
+    if blog:
+        categories = Category.query.all()
+        option_list = [dict(id=category.id, name=category.name)
+                       for category in categories]
+        return render_template('blog/update_blog.html', blog=blog, option_list=option_list)
