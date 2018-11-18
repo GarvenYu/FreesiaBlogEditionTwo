@@ -4,9 +4,11 @@
 
 ---
 
-### 拟采用的技术
-- Flask作为服务端
-- Flask-Bootstrap
+### 采用的技术
+- Flask
+- Bootstrap3
+- jQuery
+- Redis
 
 ---
 
