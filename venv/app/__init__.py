@@ -14,7 +14,7 @@ CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask('app')
     config = configparser.ConfigParser()
     config.read_file(open(CURRENT_PATH + '/resource/defaults.cfg'))
     # 配置SqlAlchemy

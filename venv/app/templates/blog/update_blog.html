@@ -105,7 +105,8 @@ $(document).ready(function() {
         $(option).val(option_list[i].id);
         $(option).text(option_list[i].name);
         if(option_list[i].name === "{{ blog.category.name }}"){
-            index = option_list[i].id;
+            index = option_list[i].id
+            ;
         }
         $('#category').append(option);
      }
