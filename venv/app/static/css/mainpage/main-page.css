@@ -1,0 +1,24 @@
+.article-center{
+    background-color: #fff;
+    padding-top: 15px;
+    border-radius: 8px;
+}
+
+.article-aside{
+    margin-left: 1%;
+}
+
+.article-aside .article-aside-tab{
+    background-color: #fff;
+    margin-bottom: 15px;
+    height: 350px;
+    overflow: auto;
+    padding-left: 5px;
+    padding-right: 0;
+    border-radius: 8px;
+}
+
+.article-aside .article-aside-carousel{
+    padding-left: 5px;
+    padding-right: 0;
+}
