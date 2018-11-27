@@ -1,3 +1,10 @@
+.comment-area{
+    background-color: #fff;
+    height: 880px;
+    overflow: auto;
+    padding: 5px 8px;
+    border-radius: 8px;
+}
 .comment-area-block{
     border-top: 1px solid #eaeaea;
     margin:10px 0 5px 0;
