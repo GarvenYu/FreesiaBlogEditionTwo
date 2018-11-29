@@ -11,7 +11,7 @@ from flask import g
 import uuid
 import json
 import redis
-from app import db
+from app.extensions import db
 from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
 from sqlalchemy import func as f, asc, desc
 

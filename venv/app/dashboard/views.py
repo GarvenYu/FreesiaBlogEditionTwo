@@ -9,7 +9,7 @@ from app.dashboard import manage
 from app.utils import load_bas_info
 from flask import render_template, request, redirect, url_for, g
 from app.models import Blog, Category
-from app import db
+from app.extensions import db
 
 
 @manage.route('/dashboard', methods=['GET'])

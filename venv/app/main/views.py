@@ -8,7 +8,7 @@ import socket
 from datetime import datetime
 from app.main import main
 from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
-from app import db
+from app.extensions import db
 import markdown
 from sqlalchemy import func, asc, desc
 from app.utils import load_bas_info
@@ -93,7 +93,7 @@ def update_blog_info():
 def check_blog(id: int):
     """获取博客详情
     """
-    blog = Blog.query.filter_by(id=id).first()
+    blog = Blog.query.get_or_404(id)
     blog.content = markdown.markdown(blog.content)
     return render_template('blog/blog_detail.html', blog=blog)
 
