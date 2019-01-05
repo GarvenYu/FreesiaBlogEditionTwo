@@ -12,11 +12,11 @@ import uuid
 import json
 import redis
 from app.extensions import db
-from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
-from sqlalchemy import func as f, asc, desc
-
+from app.models import Category, Blog
+from sqlalchemy import func as f
 
 TOKEN_KEY = 'user:token:'
+HOT_WORDS_ZSET = 'words:'
 conn = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 
@@ -37,6 +37,7 @@ def load_bas_info(request):
     :param request: flask.request
     :return: g
     """
+
     def wrapper(func):
         @functools.wraps(func)
         def call(*args, **kwargs):
@@ -49,5 +50,15 @@ def load_bas_info(request):
                 .join(Blog, Blog.category_id == Category.id).group_by(Category.name, Category.id).all()
             g.kindnumber = kind_number
             return func(*args, **kwargs)
+
         return call
+
     return wrapper
+
+
+def search_high_frequency_words():
+    """
+    返回搜索高频词汇有序集合中所有成员
+    :return: list
+    """
+    return conn.zrange(HOT_WORDS_ZSET, 0, -1)

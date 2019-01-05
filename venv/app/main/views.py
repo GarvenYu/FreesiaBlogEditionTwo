@@ -13,7 +13,7 @@ from app.models import Category, Blog, Message, MessageEncoder, ReplyComment
 from app.extensions import db
 import markdown
 from sqlalchemy import desc
-from app.utils import load_bas_info
+from app.utils import load_bas_info, search_high_frequency_words
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -193,3 +193,14 @@ def save_picture():
                 return jsonify(url=picture_url.decode('UTF-8'))
             logger.info("未接收到返回数据...")
         return jsonify(url='未接收到返回数据...')
+
+
+@main.route('/autocomplete', methods=['GET'])
+def autocomplete_search_info():
+    words = search_high_frequency_words()
+    prefix = request.args.get('key')
+    results = []
+    for word in words:
+        if word.lower().startswith(prefix):
+            results.append(word)
+    return jsonify(data=results)
