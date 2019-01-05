@@ -12,3 +12,37 @@
 .blog-content{
     font-size: 18px;
 }
+
+.article-suspended-panel{
+    position: fixed;
+    margin-left: -7rem;
+    top: 16rem;
+}
+
+.share-title{
+    margin: 2.5rem 0 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    user-select: none;
+}
+
+.panel-btn{
+    position: relative;
+    margin-bottom: .75rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #fff;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.04);
+    cursor: pointer;
+}
+
+.wb-btn{
+    background-image: url("/static/images/weibo.svg");
+}
+.wb-btn:hover{
+    background-image: url("/static/images/weibo-red.svg");
+}

@@ -11,3 +11,4 @@ app/static/images/
 app/static/fonts/
 app/static/webfonts/
 app/FlaskConf.conf
+/.gitignore

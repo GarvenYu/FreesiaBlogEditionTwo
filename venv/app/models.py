@@ -30,7 +30,7 @@ class Blog(db.Model):
 class Category(db.Model):
     """博客种类model
     """
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
 
     def __init__(self, id=None, name=None):
