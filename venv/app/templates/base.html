@@ -13,19 +13,45 @@
     <link rel="icon" href="/static/images/cat.png" type="image/x-icon">
     <link href="{{url_for('static', filename='css/base.css')}}" rel="stylesheet" />
     <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/jquery-ui.css')}}" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#searchinput").keypress(function(e){
-           if(e.which == 13){
-              alert('qq');
-            }
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+         $( "#searchInput" ).autocomplete({
+              source: function(request, response) {
+                $.ajax({
+                  url: "",
+                  dataType: "json",
+                  data: {
+                    key: request.term
+                  },
+                  success: function(data) {
+                    response( $.map( data.geonames, function( item ) {
+                      return {
+                        label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
+                        value: item.name
+                      }
+                    }));
+                  }
+                });
+              },
+              minLength: 2,
+              select: function( event, ui ) {
+
+              },
+              open: function() {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+              },
+              close: function() {
+                $(this).removeClass( "ui-corner-top" ).addClass("ui-corner-all");
+              }
         });
-});
-</script>
+    });
+    </script>
 {% endblock %}
 
 {% block title %}Freesia{% endblock %}
@@ -63,12 +89,12 @@
                   {% if g.user %}
                       <li><span style="font-size: 16px;color: #9d9d9d; padding: 15px 15px; float: right">你好~{{ g.user.email }}</span></li>
                   {% else %}
-                      <li><a href="{{ url_for("auth.login") }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
+                      <li><a href="{{ url_for('auth.login') }}"><span class="fas fa-sign-in-alt fa-lg"></span> 登录</a></li>
                   {% endif %}
             </ul>
-            <form class="navbar-form navbar-right">
-                <input id="searchinput" type="text" class="form-control" placeholder="Search...">
-            </form>
+            <div class="navbar-form navbar-right">
+                <input id="searchInput" name="searchInput" type="text" class="form-control" placeholder="Search...">
+            </div>
         </div>
       </div>
     </nav>

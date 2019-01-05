@@ -3,20 +3,23 @@
 
 from flask import render_template, request, jsonify, current_app, g, redirect, url_for, make_response
 import json
+import os
 import logging
 import socket
+import configparser
 from datetime import datetime
 from app.main import main
-from app.models import Category, Blog, Message, MessageEncoder, ReplyComment, ReplyEncoder, Role
+from app.models import Category, Blog, Message, MessageEncoder, ReplyComment
 from app.extensions import db
 import markdown
-from sqlalchemy import func, asc, desc
+from sqlalchemy import desc
 from app.utils import load_bas_info
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+RESOURCE_PATH = os.path.realpath(os.path.join(os.path.realpath(__file__), '../..')) + '/resource/defaults.cfg'
 
 
 @main.route('/', methods=['GET'])
@@ -108,7 +111,8 @@ def get_blog_by_kind():
     pagination = Blog.query.filter_by(category_id=category_id).order_by(Blog.timestamp.desc()).paginate(
         page, per_page=current_app.config['BLOG_PER_PAGE'], error_out=False)
     items = pagination.items
-    side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()  # 侧边栏最近文章
+    # 侧边栏最近文章
+    side_items = Blog.query.order_by(Blog.timestamp.desc()).limit(6).offset(0).all()
     return render_template('home/mainPage.html', items=items, sideitems=side_items,
                            pagination=pagination, category_id=category_id, mainPage=False)
 
@@ -126,12 +130,7 @@ def show_message():
 def get_message():
     """获取留言板数据
     """
-    result_list = []  # 封装评论和回复
     message_list = Message.query.filter_by(del_ind=0).order_by(desc(Message.msg_time)).all()
-    reply_list = ReplyComment.query.filter_by(del_ind=0).order_by(asc(ReplyComment.message_id),
-                                                                  desc(ReplyComment.reply_time)).all()
-    # result_list.append(json.dumps(message_list, cls=MessageEncoder))
-    # result_list.append(json.dumps(reply_list, cls=ReplyEncoder))
     return json.dumps(message_list, cls=MessageEncoder)
 
 
@@ -169,8 +168,10 @@ def save_picture():
     if request.method == 'POST':
         file = request.files['file']
         if check_extension(file.filename):
+            config = configparser.ConfigParser()
+            config.read_file(open(RESOURCE_PATH))
             client_socket = socket.socket()
-            client_socket.connect(('112.74.167.157', 8001))
+            client_socket.connect((config['app']['IP'], config['app'].getint('PORT')))
             file_size = request.content_length
             # client_socket.send(str(file_size).encode('utf-8'))
             # logger.info("发送文件长度.. %d" % request.content_length)
@@ -181,7 +182,7 @@ def save_picture():
                     client_socket.send(file.read(4096))
                 else:
                     # logger.info("发送文件.. %d" % send_size)
-                    client_socket.send(file.read(file_size-send_size))
+                    client_socket.send(file.read(file_size - send_size))
                 send_size += 4096
             logger.info("发送文件.. %d" % send_size)
             # client_socket.send("finish".encode('utf-8'))
