@@ -12,8 +12,8 @@ from app.main import main
 from app.models import Category, Blog, Message, MessageEncoder, ReplyComment
 from app.extensions import db
 import markdown
-from sqlalchemy import desc
-from app.utils import load_bas_info, search_high_frequency_words
+from sqlalchemy import desc, and_
+from app.utils import load_bas_info, autocomplete_words, handle_search_words
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -196,11 +196,27 @@ def save_picture():
 
 
 @main.route('/autocomplete', methods=['GET'])
-def autocomplete_search_info():
-    words = search_high_frequency_words()
+def autocomplete_search_info() -> json:
+    """
+    补全搜索信息
+    :return: json
+    """
+    words = autocomplete_words()
     prefix = request.args.get('key')
     results = []
     for word in words:
         if word.lower().startswith(prefix):
             results.append(word)
     return jsonify(data=results)
+
+
+@main.route('/search', methods=['GET'])
+def search():
+    """
+    主页搜索，完成两项工作，1.redis中处理搜索词 2.返回搜索结果
+    :return:
+    """
+    word = request.args.get('key')
+    handle_search_words(word)
+    search_results = Blog.query.filter(and_(Blog.title.like('%%%s%%' % word), Blog.summary.like('%%%s%%' % word)))
+    # 搜索结果展示到页面

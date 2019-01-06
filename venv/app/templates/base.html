@@ -21,6 +21,20 @@
     <script type="text/javascript" src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('#searchInput').bind('keypress',function(event){
+             if(event.keyCode == 13){
+                 $.ajax({
+                  url: "/search",
+                  dataType: "json",
+                  data: {
+                    key: $('#searchInput').val()
+                  },
+                  success: function(data) {
+
+                  }
+                });
+             }
+             });
          $( "#searchInput" ).autocomplete({
               source: function(request, response) {
                 $.ajax({
@@ -37,7 +51,16 @@
               },
               minLength: 2,
               select: function( event, ui ) {
-
+                $.ajax({
+                  url: "/search",
+                  dataType: "json",
+                  data: {
+                    key: ui.item.value
+                  },
+                  success: function(data) {
+                    console.log(data.data)
+                  }
+                });
               },
               open: function() {
                 $(this).removeClass("ui-corner-all").addClass("ui-corner-top");

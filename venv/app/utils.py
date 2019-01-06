@@ -11,12 +11,18 @@ from flask import g
 import uuid
 import json
 import redis
+import os
+import configparser
 from app.extensions import db
 from app.models import Category, Blog
 from sqlalchemy import func as f
 
-TOKEN_KEY = 'user:token:'
-HOT_WORDS_ZSET = 'words:'
+CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
+config = configparser.ConfigParser()
+config.read_file(open(CURRENT_PATH + '/resource/defaults.cfg'))
+TOKEN_KEY = config['redis']['TOKEN_KEY']
+HOT_WORDS_ZSET = config['redis']['HOT_WORDS_ZSET']
+HOT_WORDS_NUMBERS = config['redis'].getint('WORDS_COUNTS')
 conn = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 
@@ -56,9 +62,39 @@ def load_bas_info(request):
     return wrapper
 
 
-def search_high_frequency_words():
+def autocomplete_words() -> list:
     """
     返回搜索高频词汇有序集合中所有成员
     :return: list
     """
-    return conn.zrange(HOT_WORDS_ZSET, 0, -1)
+    return conn.zrevrange(HOT_WORDS_ZSET, 0, -1)
+
+
+def handle_search_words(word):
+    """
+    搜索词增加搜索次数
+    :param word: 搜索词
+    :return: 
+    """
+    pipeline = conn.pipeline(True)
+    while 1:
+        try:
+            exist = conn.zrank(HOT_WORDS_ZSET, word)
+            current_words_counts = conn.zcard(HOT_WORDS_ZSET)
+            pipeline.watch(HOT_WORDS_ZSET)
+            if exist:
+                # 如果搜索词已存在
+                # 增加搜索次数
+                pipeline.zincrby(HOT_WORDS_ZSET, 1, word)
+            elif current_words_counts > HOT_WORDS_NUMBERS:
+                # 如果有序集合中的关键字个数超过了设置上限
+                # 移除次数最低的元素
+                pipeline.zremrangebyrank(HOT_WORDS_ZSET, 0, 0)
+                # 添加新的元素
+                pipeline.zadd(HOT_WORDS_ZSET, {word: 1})
+            else:
+                pipeline.zadd(HOT_WORDS_ZSET, {word: 1})
+            pipeline.execute()
+            break
+        except redis.exceptions.WatchError:
+            continue
