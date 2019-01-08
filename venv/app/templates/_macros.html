@@ -1,148 +1,193 @@
 {% macro render_pagination(pagination, endpoint) %}
-    {# mainPage.html
-    主页-分页
+{# mainPage.html
+主页-分页
 #}
 <nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
-      <a href="{% if pagination.has_prev %}{{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}{% else %}#{% endif %}" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    {% for page in pagination.iter_pages() %}
-    	{% if page %}
-			{% if page == pagination.page %}
-				<li class="active"><a href="{{ url_for(endpoint, page=pagination.page, **kwargs) }}"><span aria-hidden="true">{{ page }}</span></a></li>
-			{% else %}
-				<li><a href="{{ url_for(endpoint, page=page, **kwargs) }}"><span aria-hidden="true">{{ page }}</span></a></li>
-			{% endif %}
-		{% else %}
-			<li class="disabled">
-      			<a href="#">
-        			<span aria-hidden="true">&hellip;</span>
-      			</a>
-   			</li>
-		{% endif %}
-    {% endfor %}
-    <li {% if not pagination.has_next %} class="disabled" {% endif %}>
-      <a href="{% if pagination.has_next %}{{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}{% else %}#{% endif %}" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
+    <ul class="pagination">
+        <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
+            <a href="{% if pagination.has_prev %}{{ url_for(endpoint, page=pagination.page - 1, **kwargs) }}{% else %}#{% endif %}"
+               aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for page in pagination.iter_pages() %}
+        {% if page %}
+        {% if page == pagination.page %}
+        <li class="active"><a href="{{ url_for(endpoint, page=pagination.page, **kwargs) }}"><span aria-hidden="true">{{ page }}</span></a>
+        </li>
+        {% else %}
+        <li><a href="{{ url_for(endpoint, page=page, **kwargs) }}"><span aria-hidden="true">{{ page }}</span></a></li>
+        {% endif %}
+        {% else %}
+        <li class="disabled">
+            <a href="#">
+                <span aria-hidden="true">&hellip;</span>
+            </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <li {% if not pagination.has_next %} class="disabled" {% endif %}>
+            <a href="{% if pagination.has_next %}{{ url_for(endpoint, page=pagination.page + 1, **kwargs) }}{% else %}#{% endif %}"
+               aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
 </nav>
 {% endmacro %}
 
 {% macro render_blogs(items, endpoint) %}
-    {# mainPage.html
-    主页-博客列表
+{# mainPage.html
+主页-博客列表
 #}
-    {% for item in items %}
-        <article class="article">
-          <h2>
-            <a href="/detail/{{ item.id }}" class="blogTitle">{{ item.title }}</a>
-          </h2>
-            <p>{{ item.summary }}</p>
-            <div>
-              <span class="label label-info">{{ item.category.name }}</span>
-              <i class="fas fa-user-circle fa-lg"></i><span style="font-size:13px;margin: 0 5px">Freesia</span>
-              <i class="fas fa-calendar fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_date}}</span>
-              <i class="fas fa-clock fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_time}}</span>
-              <a class="pull-right" title="阅读全文" href="{{ url_for('.check_blog',id=item.id) }}">阅读全文<i class="fas fa-arrow-right fa-lg"></i></a>
-            </div>
-        </article>
-    {% endfor %}
+{% for item in items %}
+<article class="article">
+    <h2>
+        <a href="/detail/{{ item.id }}" class="blogTitle" target="_blank">{{ item.title }}</a>
+    </h2>
+    <p>{{ item.summary }}</p>
+    <div>
+        <span class="label label-info">{{ item.category.name }}</span>
+        <i class="fas fa-user-circle fa-lg"></i><span style="font-size:13px;margin: 0 5px">Freesia</span>
+        <i class="fas fa-calendar fa-lg"></i><span style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_date}}</span>
+        <i class="fas fa-clock fa-lg"></i><span
+            style="font-size:13px;margin: 0 5px">{{ item.timestamp | format_time}}</span>
+        <a class="pull-right" title="阅读全文" href="{{ url_for('.check_blog',id=item.id) }}" target="_blank">阅读全文<i
+                class="fas fa-arrow-right fa-lg"></i></a>
+    </div>
+</article>
+{% endfor %}
 {% endmacro %}
 
 {% macro render_aside(sideitems, kindnumber, recentComments, endpoint) %}
-    {# mainPage.html
-     主页-侧边栏
+{# mainPage.html
+主页-侧边栏
 #}
-    <aside class="aside" style="clear: both">
-        <ul class="nav nav-tabs" role="tablist" id="myTabs">
-          <li role="presentation" class="active"><a href="#recentArticle" aria-controls="recentArticle" role="tab" data-
-            toggle="tab">最近文章</a></li>
-          <li role="presentation"><a href="#blogKind" aria-controls="blogKind" role="tab" data-
-            toggle="tab">博客分类</a></li>
-          <li role="presentation"><a href="#recentComments" aria-controls="test" role="tab" data-
-            toggle="tab">最近留言</a></li>
-        </ul>
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade in active" id="recentArticle">
-        {% for item in sideitems %}
+<aside class="aside" style="clear: both">
+    <ul class="nav nav-tabs" role="tablist" id="myTabs">
+        <li role="presentation" class="active"><a href="#recentArticle" aria-controls="recentArticle" role="tab" data-
+                                                  toggle="tab">最近文章</a></li>
+        <li role="presentation"><a href="#blogKind" aria-controls="blogKind" role="tab" data-
+                                   toggle="tab">博客分类</a></li>
+        <li role="presentation"><a href="#recentComments" aria-controls="test" role="tab" data-
+                                   toggle="tab">最近留言</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="recentArticle">
+            {% for item in sideitems %}
             {% if item %}
-                <a href="{{ url_for('.check_blog',id=item.id) }}" title="{{ item.title }}"><i class="fas fa-book"></i>{{ item.title }}</a>
+            <a href="{{ url_for('.check_blog',id=item.id) }}" title="{{ item.title }}" target="_blank">
+                <i class="fas fa-book"></i>{{ item.title }}</a>
             {% endif %}
-        {% endfor %}
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="blogKind">
-            {% for item in kindnumber %}
-              <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
             {% endfor %}
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="recentComments">
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="blogKind">
+            {% for item in kindnumber %}
+            <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span
+                    class="badge pull-right">{{ item[2] }}</span></a>
+            {% endfor %}
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="recentComments">
             {% if recentComments %}
-                {% for item in recentComments %}
-                  <p>@{{ item.user_name| safe }}： {{ item.msg_content | safe }}</p>
-              {% endfor %}
-             {% else %}
-                暂无留言
+            {% for item in recentComments %}
+            <p>@{{ item.user_name| safe }}： {{ item.msg_content | safe }}</p>
+            {% endfor %}
+            {% else %}
+            暂无留言
             {% endif %}
 
-          </div>
         </div>
-      </aside>
+    </div>
+</aside>
 {% endmacro %}
 
 {% macro render_blog_kind(kindnumber, endpoint) %}
-    {#
-    mainPage.html
-    导航栏-分类-博客分类
+{#
+mainPage.html
+导航栏-分类-博客分类
 #}
-        {% for item in kindnumber %}
-          <li>
-            <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span class="badge pull-right">{{ item[2] }}</span></a>
-          </li>
-        {% endfor %}
+{% for item in kindnumber %}
+<li>
+    <a href="{{ url_for(endpoint, category_id=item[1]) }}" title="{{ item[0] }}">{{ item[0] }}<span
+            class="badge pull-right">{{ item[2] }}</span></a>
+</li>
+{% endfor %}
 {% endmacro %}
 
 {% macro modify_blog(blogs) %}
 {#    dashboard.html
-      更新博客
+更新博客
 #}
-    <h2 class="page-header"><i class="fas fa-eraser icon-feather"></i>更新博客</h2>
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>标题</th>
-                  <th>摘要</th>
-                  <th>时间</th>
-                  <th>分类</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for blog in blogs %}
-                    <tr>
-                      <td>{{ blog.id }}</td>
-                      <td>{{ blog.title }}</td>
-                      <td width="500">{{ blog.summary }}</td>
-                      <td>{{ blog.timestamp }}</td>
-                      <td>{{ blog.category.name }}</td>
-                        <td>
-                            <form action="{{ url_for('manage.update_blog') }}" method="post" style="display: inline">
-                                <input type="hidden" value="{{ blog.id }}" name="id">
-                                <button type="submit" class="btn btn-info btn-sm">更新</button>
-                            </form>
-                            <form action="{{ url_for('manage.delete_blog', id=blog.id) }}" method="post" style="display: inline">
-                                <button type="submit" class="btn btn-danger btn-sm">删除</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-    </div>
+<h2 class="page-header"><i class="fas fa-eraser icon-feather"></i>更新博客</h2>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>标题</th>
+            <th>摘要</th>
+            <th>时间</th>
+            <th>分类</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+        <tr>
+            <td>{{ blog.id }}</td>
+            <td>{{ blog.title }}</td>
+            <td width="500">{{ blog.summary }}</td>
+            <td>{{ blog.timestamp }}</td>
+            <td>{{ blog.category.name }}</td>
+            <td>
+                <form action="{{ url_for('manage.update_blog') }}" method="post" style="display: inline">
+                    <input type="hidden" value="{{ blog.id }}" name="id">
+                    <button type="submit" class="btn btn-info btn-sm">更新</button>
+                </form>
+                <form action="{{ url_for('manage.delete_blog', id=blog.id) }}" method="post" style="display: inline">
+                    <button type="submit" class="btn btn-danger btn-sm">删除</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+{% macro render_search_results(results, searched) %}
+{# search_results.html #}
+{% if searched %}
+{% for result in results %}
+<div class="result-content">
+    <span>{{ result[0].timestamp.year }}</span>
+    <span>({{ result | length }})</span>
+    <ul>
+        {% for blog in result %}
+        <li>
+            <div class="result-item">
+                <span>{{ blog.timestamp | format_search_time}}</span>
+                <a href="#">{{ blog.title }}</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
+{% else %}
+<h3>
+    <span>暂时没有搜索到您需要的内容...</span>
+</h3>
+<span>您可能会感兴趣:</span>
+<ul>
+    {% for blog in results %}
+    <li>
+        <div class="result-item">
+            <a href="#">{{ blog.title }}</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endif %}
 {% endmacro %}

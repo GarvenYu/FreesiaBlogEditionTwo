@@ -12,7 +12,7 @@ from app.main import main
 from app.models import Category, Blog, Message, MessageEncoder, ReplyComment
 from app.extensions import db
 import markdown
-from sqlalchemy import desc, and_
+from sqlalchemy import desc, or_, func
 from app.utils import load_bas_info, autocomplete_words, handle_search_words
 
 logging.basicConfig(level=logging.INFO)
@@ -210,13 +210,42 @@ def autocomplete_search_info() -> json:
     return jsonify(data=results)
 
 
-@main.route('/search', methods=['GET'])
+@main.route('/search', methods=['POST'])
 def search():
     """
     主页搜索，完成两项工作，1.redis中处理搜索词 2.返回搜索结果
     :return:
     """
-    word = request.args.get('key')
+    word = request.form.get('searchInput')
     handle_search_words(word)
-    search_results = Blog.query.filter(and_(Blog.title.like('%%%s%%' % word), Blog.summary.like('%%%s%%' % word)))
-    # 搜索结果展示到页面
+    search_results = Blog.query.filter(
+        or_(Blog.title.like('%%%s%%' % word), Blog.summary.like('%%%s%%' % word))).order_by(
+        Blog.timestamp.desc()).all()
+    final_results = []
+    if search_results:
+        searched = True
+        # 根据年份将搜索结果进行分组
+        # 初始化final_results
+        max_year = search_results[0].timestamp.year
+        count = 0
+        for blog in search_results:
+            if blog.timestamp.year == max_year:
+                count += 1
+            else:
+                final_results.append([1] * count)
+                max_year = blog.timestamp.year
+                count = 1
+        final_results.append([1] * count)
+        # 填入数据
+        # 每一年的结果存在同一个列表中
+        index = 0
+        for i in range(len(final_results)):
+            for j in range(len(final_results[i])):
+                if final_results[i][j]:
+                    final_results[i][j] = search_results[index]
+                    index += 1
+    else:
+        searched = False
+        # 随机选取博客进行展示
+        final_results = Blog.query.order_by(func.rand()).limit(5).all()
+    return render_template('blog/search_results.html', results=final_results, searched=searched)

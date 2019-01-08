@@ -4597,7 +4597,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: cadetblue;
+  color: #fff;
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {

@@ -82,7 +82,7 @@ def handle_search_words(word):
             exist = conn.zrank(HOT_WORDS_ZSET, word)
             current_words_counts = conn.zcard(HOT_WORDS_ZSET)
             pipeline.watch(HOT_WORDS_ZSET)
-            if exist:
+            if exist is not None:
                 # 如果搜索词已存在
                 # 增加搜索次数
                 pipeline.zincrby(HOT_WORDS_ZSET, 1, word)

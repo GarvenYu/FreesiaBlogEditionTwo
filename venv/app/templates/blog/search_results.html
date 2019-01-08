@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="搜索结果">
+    <meta name="author" content="ykbpro@whut.edu.cn">
+    <link rel="icon" href="{{url_for('static', filename='images/cat.png')}}">
+
+    <title>搜索结果</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{url_for('static', filename='css/search-result/search.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/fa-all.css')}}" rel="stylesheet" />
+    {% import "_macros.html" as macros %}
+  </head>
+<body>
+	<div class="container">
+		<div class="result-main">
+			<header class="search-head">
+				<h1>搜索结果</h1>
+			</header>
+			{{ macros.render_search_results(results, searched) }}
+		</div>
+	</div>
+</body>
+</html>

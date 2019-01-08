@@ -51,6 +51,8 @@ def register_filter(app):
         datetime.strftime('%Y') + '年' + datetime.strftime('%m') + '月' + datetime.strftime('%d') + '日'
     app.jinja_env.filters['format_time'] = lambda datetime: \
         datetime.strftime('%H') + ':' + datetime.strftime('%M') + ':' + datetime.strftime('%S')
+    app.jinja_env.filters['format_search_time'] = lambda datetime: \
+        datetime.strftime('%m') + '/' + datetime.strftime('%d')
 
 
 def register_error(app):
