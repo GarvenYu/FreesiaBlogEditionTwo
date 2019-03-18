@@ -24,6 +24,7 @@ TOKEN_KEY = config['redis']['TOKEN_KEY']
 HOT_WORDS_ZSET = config['redis']['HOT_WORDS_ZSET']
 HOT_WORDS_NUMBERS = config['redis'].getint('WORDS_COUNTS')
 conn = redis.Redis(host="localhost", port=6379, decode_responses=True)
+conn2 = redis.Redis(db=1, decode_responses=True)
 
 
 def load_user(token):
@@ -98,3 +99,17 @@ def handle_search_words(word):
             break
         except redis.exceptions.WatchError:
             continue
+
+
+def get_aside_sentence():
+    """侧边栏每日一句"""
+    keys = conn2.keys()
+    if keys:
+        try:
+            result = conn2.get(keys[0])
+            celery_dict = json.loads(result)
+            iciba_dict = json.loads(celery_dict.get('result', None))
+            if iciba_dict:
+                return iciba_dict['content'], iciba_dict['pic']
+        except Exception as e:
+            raise e

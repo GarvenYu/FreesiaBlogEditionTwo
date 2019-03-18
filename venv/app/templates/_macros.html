@@ -167,7 +167,7 @@ mainPage.html
         <li>
             <div class="result-item">
                 <span>{{ blog.timestamp | format_search_time}}</span>
-                <a href="#">{{ blog.title }}</a>
+                <a href="{{ url_for('main.check_blog', id = blog.id) }}" target="_blank">{{ blog.title }}</a>
             </div>
         </li>
         {% endfor %}
@@ -183,7 +183,7 @@ mainPage.html
     {% for blog in results %}
     <li>
         <div class="result-item">
-            <a href="#">{{ blog.title }}</a>
+            <a href="{{ url_for('main.check_blog', id = blog.id) }}" target="_blank">{{ blog.title }}</a>
         </div>
     </li>
     {% endfor %}

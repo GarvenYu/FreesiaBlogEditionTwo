@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 from flask import Flask, render_template
 from app.extensions import bootstrap, db
 import configparser
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 from app.main import main as main_blueprint
 from app.auth import auth as auth_blueprint
 from app.dashboard import manage as manage_blueprint
@@ -22,6 +25,7 @@ def create_app():
     register_blueprints(app)  # 注册蓝本
     register_filter(app)  # 注册过滤器
     register_error(app)  # 注册错误处理
+    register_logger(app)  # 注册日志处理
     return app
 
 
@@ -59,3 +63,12 @@ def register_error(app):
     @app.errorhandler(404)
     def page_not_found(exception):
         return render_template('error/404.html'), 404
+
+
+def register_logger(app):
+    app.logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler = RotatingFileHandler('blog.log', maxBytes=10 * 1024 * 1024, backupCount=3)
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)

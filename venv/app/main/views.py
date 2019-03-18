@@ -13,7 +13,7 @@ from app.models import Category, Blog, Message, MessageEncoder, ReplyComment
 from app.extensions import db
 import markdown
 from sqlalchemy import desc, or_, func
-from app.utils import load_bas_info, autocomplete_words, handle_search_words
+from app.utils import load_bas_info, autocomplete_words, handle_search_words, get_aside_sentence
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -36,7 +36,7 @@ def index():
     # 侧边栏最近留言
     recent_comments = Message.query.filter_by(del_ind=0) \
         .order_by(Message.msg_time.desc()).limit(5).offset(0).all()
-    return render_template('home/mainPage.html', items=items, sideitems=side_items,
+    return render_template('home/mainPage.html', items=items, sideitems=side_items, iciba=get_aside_sentence(),
                            pagination=pagination, recentComments=recent_comments, mainPage=True)
 
 
